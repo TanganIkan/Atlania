@@ -1,11 +1,14 @@
-<div>
-    <h2>Dashboard</h2>
+<h1>Dashboard</h1>
 
-    <p>Halo, {{ auth()->user()->name }}</p>
+{{-- <p>Halo, {{ auth()->user()->name }}</p> --}}
 
-    <form method="POST" action="/logout">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+<hr>
 
-</div>
+<h2>Artikel Saya</h2>
+
+@foreach ($articles as $article)
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px">
+        <h3>{{ $article->title }}</h3>
+        <p>{{ Str::limit($article->content, 100) }}</p>
+    </div>
+@endforeach
