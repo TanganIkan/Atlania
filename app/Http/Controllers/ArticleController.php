@@ -10,7 +10,6 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::with('user', 'category')->latest()->get();
-        dump($articles);
         return view('dashboard', compact('articles'));
     }
 

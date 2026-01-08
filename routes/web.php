@@ -22,7 +22,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // role admin & superadmin
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
-})->middleware(['auth', 'verified', 'role:superadmin,admin']);
+})->middleware(['auth', 'verified', 'admin']);
 
 // articles
 Route::get('/dashboard', [ArticleController::class, 'index']);
