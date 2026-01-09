@@ -11,4 +11,19 @@
         <h3>{{ $article->title }}</h3>
         <p>{{ Str::limit($article->content, 100) }}</p>
     </div>
+    <a href="/articles/create">+ Tambah Artikel</a>
+
+    @foreach ($articles as $article)
+        <h3>{{ $article->title }}</h3>
+        <p>{{ $article->category->name }}</p>
+
+        <a href="/articles/{{ $article->id }}/edit">Edit</a>
+
+        <form action="/articles/{{ $article->id }}" method="POST" style="display:inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Hapus</button>
+        </form>
+    @endforeach
+
 @endforeach

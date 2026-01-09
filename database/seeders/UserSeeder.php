@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+use function Symfony\Component\String\b;
+
 class UserSeeder extends Seeder
 {
     /**
@@ -17,14 +19,14 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('password'),
+            'password' => bcrypt('admin123'),
             'role' => 'admin',
         ]);
 
         User::create([
             'name' => 'User',
             'email' => 'tuadi@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => bcrypt('tuadi123'),
             'role' => 'user',
         ]);
     }

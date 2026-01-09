@@ -12,12 +12,18 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role === 'admin') {
+        $user = auth()->user();
+
+        if ($user && $user->role === 'admin') {
             $articles = Article::with('category')->latest()->get();
         } else {
-            $articles = Article::where('user_id', auth()->id())->with('category')->latest()->get();
+            $articles = Article::where('user_id', $user->id)
+                ->with('category')
+                ->latest()
+                ->get();
         }
-        return view('dashboard', compact('articles'));
+
+        return view('/dashboard', compact('articles'));
     }
 
     public function create()
@@ -37,7 +43,40 @@ class ArticleController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+        return redirect('/dashboard')->with('success', 'Article created successfully.');
+    }
+
+    public function edit(Article $article)
+    {
+        if (auth()->user()->role === 'admin') {
+            $articles = Article::with('category')->latest()->get();
+        }
+
+        $categories = Category::all();
+        return view('articles.edit', compact('article', 'categories'));
+    }
+
+    public function update(Article $article)
+    {
+        $article->update([
+            'title' => request('title'),
+            'slug' => Str::slug(request('title')),
+            'content' => request('content'),
+            'category_id' => request('category_id'),
+        ]);
+
+        return redirect('/dashboard')->with('success', 'Article diperbarui');
+    }
+
+    public function destroy(Article $article)
+    {
+        if (auth()->user()->role !== 'admin' && $article->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $article->delete();
+
+        return redirect('/dashboard')->with('success', 'Article dihapus');
     }
 
 
