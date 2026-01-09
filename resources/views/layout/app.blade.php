@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Blog App')</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Blog')</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    {{-- Tailwind --}}
+    @vite('resources/css/app.css')
 </head>
-
-<body class="min-h-screen">
+<body class="font-sans antialiased">
     @yield('content')
-
 </body>
-
 </html>

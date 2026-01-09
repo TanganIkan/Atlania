@@ -12,18 +12,18 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        $articles = Article::with('user', 'category')
+            ->latest()
+            ->get();
 
-        if ($user && $user->role === 'admin') {
-            $articles = Article::with('category')->latest()->get();
-        } else {
-            $articles = Article::where('user_id', $user->id)
-                ->with('category')
-                ->latest()
-                ->get();
-        }
+        // SATU dashboard untuk semua
+        return view('dashboard', compact('articles'));
+    }
 
-        return view('/dashboard', compact('articles'));
+    public function adminIndex()
+    {
+        $articles = Article::with('user', 'category')->latest()->get();
+        return view('admin.dashboard', compact('articles'));
     }
 
     public function create()
@@ -34,7 +34,6 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-
         Article::create([
             'title' => request('title'),
             'slug' => Str::slug(request('title')),
@@ -43,26 +42,31 @@ class ArticleController extends Controller
             'user_id' => auth()->id(),
         ]);
 
+
         return redirect('/dashboard')->with('success', 'Article created successfully.');
     }
 
     public function edit(Article $article)
     {
-        if (auth()->user()->role === 'admin') {
-            $articles = Article::with('category')->latest()->get();
+        if ($article->user_id !== auth()->id()) {
+            abort(403);
         }
 
         $categories = Category::all();
         return view('articles.edit', compact('article', 'categories'));
     }
 
-    public function update(Article $article)
+    public function update(Request $request, Article $article)
     {
+        if ($article->user_id !== auth()->id()) {
+            abort(403);
+        }
+
         $article->update([
-            'title' => request('title'),
-            'slug' => Str::slug(request('title')),
-            'content' => request('content'),
-            'category_id' => request('category_id'),
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->content,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect('/dashboard')->with('success', 'Article diperbarui');
@@ -70,14 +74,11 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        if (auth()->user()->role !== 'admin' && $article->user_id !== auth()->id()) {
+        if ($article->user_id !== auth()->id()) {
             abort(403);
         }
 
         $article->delete();
-
         return redirect('/dashboard')->with('success', 'Article dihapus');
     }
-
-
 }

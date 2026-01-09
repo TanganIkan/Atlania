@@ -3,27 +3,32 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
+use Illuminate\Support\Facades\Auth;
 
-// login
+// ===== AUTH =====
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginProcess']);
 
-// register
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'registerProcess']);
 
-// logout
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
 
-// role admin & superadmin
-Route::get('/admin/dashboard', [ArticleController::class, 'index']);
+    return redirect('/dashboard');
+})->middleware('auth')->name('logout');
 
-// articles
+// ===== PUBLIC DASHBOARD =====
 Route::get('/dashboard', [ArticleController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [ArticleController::class, 'index']);
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [ArticleController::class, 'adminIndex']);
+});
 
+// ===== PROTECTED CRUD =====
+Route::middleware('auth')->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create']);
     Route::post('/articles', [ArticleController::class, 'store']);
 
