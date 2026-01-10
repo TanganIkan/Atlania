@@ -1,4 +1,4 @@
-@extends('layout.app') @extends('layout.auth') @section('auth-content')
+@extends('layout.auth') @section('title', 'Register') @section('auth-content')
     <h1 class="text-center text-[22px] font-semibold text-black mb-2">
         Daftar Akun
     </h1>
@@ -7,8 +7,8 @@
         Masukkan detail untuk melakukan register
     </p>
 
-    <form method="POST" action="/register" class="space-y-5">
-        @csrf {{-- NAMA --}}
+    <form method="POST" action="{{ route('auth.register') }}" class="space-y-5">
+        @csrf
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Nama*
@@ -17,7 +17,6 @@
                 class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
         </div>
 
-        {{-- EMAIL --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Email*
@@ -26,7 +25,6 @@
                 class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
         </div>
 
-        {{-- PASSWORD --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Password*
@@ -35,7 +33,6 @@
                 class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
         </div>
 
-        {{-- KONFIRMASI PASSWORD --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Konfirmasi Password*
@@ -44,7 +41,6 @@
                 class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
         </div>
 
-        {{-- NOTE --}}
         <p class="text-[10px] text-black max-w-[280px] leading-snug">
             Informasi ini akan disimpan dengan aman sesuai dengan
             <strong>Ketentuan Layanan</strong>
@@ -52,7 +48,6 @@
             <a href="#" class="underline font-semibold">Kebijakan Privasi</a>
         </p>
 
-        {{-- BUTTON --}}
         <div class="flex flex-col gap-3 pt-2">
             <button type="submit"
                 class="w-full bg-yellow-300 border border-black px-8 py-2 text-sm font-semibold shadow-[3px_3px_0px_0px_black] transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_0px_black] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none">

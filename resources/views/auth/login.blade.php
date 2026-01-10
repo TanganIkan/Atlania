@@ -1,4 +1,4 @@
-@extends('layout.app') @extends('layout.auth') @section('title', 'Login')
+@extends('layout.auth') @section('title', 'Login')
 @section('auth-content')
 
     <h1 class="text-center text-[22px] font-semibold mb-2 text-black">Login</h1>
@@ -13,8 +13,8 @@
         </p>
     @endif
 
-    <form method="POST" action="{{ route('login') }}" class="space-y-5">
-        @csrf {{-- EMAIL --}}
+    <form method="POST" action="{{ route('auth.login') }}" class="space-y-5">
+        @csrf
         <div>
             <label class="block text-[12px] font-semibold mb-1 text-black">
                 Email*
@@ -24,7 +24,6 @@
                 class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
         </div>
 
-        {{-- PASSWORD --}}
         <div>
             <label class="block text-[12px] font-semibold mb-1 text-black">
                 Password*
@@ -34,7 +33,6 @@
                 class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
         </div>
 
-        {{-- BUTTON --}}
         <div class="flex flex-col sm:flex-row gap-3 pt-3">
             <a href="{{ url('/register') }}"
                 class="text-center border border-black px-6 py-2 text-sm font-semibold bg-white shadow-[3px_3px_0px_0px_black] transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_0px_black]">

@@ -15,8 +15,6 @@ class ArticleController extends Controller
         $articles = Article::with('user', 'category')
             ->latest()
             ->get();
-
-        // SATU dashboard untuk semua
         return view('dashboard', compact('articles'));
     }
 
@@ -43,7 +41,7 @@ class ArticleController extends Controller
         ]);
 
 
-        return redirect('/dashboard')->with('success', 'Article created successfully.');
+        return redirect(route('dashboard'))->with('success', 'Article created successfully.');
     }
 
     public function edit(Article $article)
@@ -63,13 +61,13 @@ class ArticleController extends Controller
         }
 
         $article->update([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'content' => $request->content,
-            'category_id' => $request->category_id,
+            'title' => request('title'),
+            'slug' => Str::slug(request('title')),
+            'content' => request('content'),
+            'category_id' => request('category_id'),
         ]);
 
-        return redirect('/dashboard')->with('success', 'Article diperbarui');
+        return redirect(route('dashboard'))->with('success', 'Article diperbarui');
     }
 
     public function destroy(Article $article)
@@ -79,6 +77,6 @@ class ArticleController extends Controller
         }
 
         $article->delete();
-        return redirect('/dashboard')->with('success', 'Article dihapus');
+        return redirect(route('dashboard'))->with('success', 'Article dihapus');
     }
 }

@@ -1,4 +1,21 @@
-<div class="min-h-screen bg-[#d9d9d9] flex items-center justify-center relative overflow-hidden">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@yield('title', 'Atlania - Tech Blog')</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    @vite('resources/css/app.css')
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-[#d9d9d9] flex items-center justify-center relative overflow-hidden">
 
     <div aria-hidden="true" class="absolute inset-0 pointer-events-none z-0">
         <svg class="w-full h-full opacity-30" xmlns="http://www.w3.org/2000/svg">
@@ -31,3 +48,5 @@
         @yield('auth-content')
     </div>
 </div>
+</body>
+</html>

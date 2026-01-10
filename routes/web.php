@@ -6,10 +6,10 @@ use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Auth;
 
 // ===== AUTH =====
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'loginProcess']);
 
-Route::get('/register', [AuthController::class, 'register']);
+Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/register', [AuthController::class, 'registerProcess']);
 
 Route::post('/logout', function () {
@@ -17,14 +17,14 @@ Route::post('/logout', function () {
     request()->session()->invalidate();
     request()->session()->regenerateToken();
 
-    return redirect('/dashboard');
-})->middleware('auth')->name('logout');
+    return redirect('/');
+})->middleware('auth')->name('auth.logout');
 
 // ===== PUBLIC DASHBOARD =====
-Route::get('/dashboard', [ArticleController::class, 'index']);
+Route::get('/', [ArticleController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [ArticleController::class, 'adminIndex']);
+    Route::get('/admin/dashboard', [ArticleController::class, 'adminIndex'])->name('admin.dashboard');
 });
 
 // ===== PROTECTED CRUD =====
