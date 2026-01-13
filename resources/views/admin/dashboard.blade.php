@@ -6,7 +6,7 @@
 
     <a href="/articles/create">+ Tambah Artikel</a>
 
-    <form action="{{ route('auth.   logout') }}" method="POST" style="display:inline">
+    <form action="{{ route('auth.logout') }}" method="POST" style="display:inline">
         @csrf
         <button type="submit">Logout</button>
     </form>

@@ -1,91 +1,322 @@
-@extends('layout.app') {{-- Pastikan kamu punya layout utama --}}
+@extends('layout.app')
 
 @section('content')
-<div class="bg-white min-h-screen font-sans text-gray-900">
-    
-    <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        @php
-            $featured = $articles->where('is_featured', true)->first() ?? $articles->first();
-        @endphp
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        @if($featured)
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-6xl font-black mb-4">Tech<span class="text-purple-600">.</span></h1>
-                <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                    <span class="font-bold text-black">{{ $featured->user->name }}</span>
-                    <span>•</span>
-                    <span>{{ $featured->created_at->diffForHumans() }}</span>
+        <!-- Hero Section -->
+        <div class="mb-16">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                <div class="flex flex-col">
+                    <div class="relative w-fit mb-10">
+                        <h2 class="text-6xl font-extrabold text-[#1a1c2e] relative z-10">Tech<span
+                                class="text-[#1a1c2e]">.</span></h2>
+                        <span class="absolute left-0 bottom-1 w-full h-[10px] bg-purple-500">
+                    </div>
+
+                    <div class="flex items-center space-x-3 text-sm text-gray-400 mb-6 font-medium">
+                        <span>{{ $articles->first()->user->name ?? 'Joseph Pharnaldej' }}</span>
+                        <span class="text-gray-300">—</span>
+                        <span>{{ $articles->first()->created_at->diffForHumans() ?? '6 hours ago' }}</span>
+                    </div>
+
+                    <h1 class="text-5xl font-bold text-[#1a1c2e] mb-6 leading-[1.15] tracking-tight">
+                        {{ $articles->first()->title ?? 'The Future of Artificial Intelligence: Trends and Implications.' }}
+                    </h1>
+
+                    <div class="flex items-start space-x-5">
+                        <p class="text-gray-400 text-sm leading-relaxed max-w-ld">
+                            {{ Str::limit($articles->first()->content, 160) ?? 'The Future of Artificial Intelligence: Trends and Implications. The Future of Artificial Intelligence: Trends and Implications.' }}
+                        </p>
+
+                        <a href="#"
+                            class="flex-shrink-0 w-14 h-14 bg-[#f15a24] text-white rounded-xl flex items-center justify-center hover:bg-[#d44d1d] transition-all duration-300 shadow-lg shadow-orange-200">
+                            <svg class="w-6 h-6 transform rotate-45" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <h2 class="text-4xl font-extrabold leading-tight mb-6">
-                    {{ $featured->title }}
-                </h2>
-                <p class="text-gray-600 mb-8 line-clamp-3">
-                    {{ Str::limit(strip_tags($featured->content), 180) }}
-                </p>
-                <a href="#" class="inline-flex items-center justify-center w-12 h-12 bg-orange-500 text-white rounded-bl-2xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+
+                <div class="relative">
+                    <div class="rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=800" alt="VR Technology"
+                            class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 flex items-center justify-center space-x-8">
+                <div class="h-[1px] bg-gray-200 flex-1"></div>
+                <div class="flex items-baseline space-x-1">
+                    <span class="text-3xl font-black text-[#1a1c2e]">2</span>
+                    <span class="text-xl font-bold text-gray-300">/ 6</span>
+                </div>
+                <div class="h-[1px] bg-gray-200 flex-1"></div>
+            </div>
+        </div>
+
+        <!-- Latest Articles Section -->
+        <div class="mb-16">
+
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+                <h2 class="text-4xl font-extrabold text-[#1a1c2e]">Latest Articles</h2>
+
+                <div class="flex items-center space-x-6">
+                    <div class="flex bg-gray-50 p-1 rounded-xl border border-gray-100">
+                        <button
+                            class="px-6 py-2.5 bg-white shadow-sm rounded-lg text-sm font-bold text-[#1a1c2e]">Technologies</button>
+                        <button class="px-6 py-2.5 text-sm font-bold text-gray-400 hover:text-[#1a1c2e] transition">Digital
+                            marketing</button>
+                        <button
+                            class="px-6 py-2.5 text-sm font-bold text-gray-400 hover:text-[#1a1c2e] transition">Business</button>
+                    </div>
+
+                    <div class="relative group">
+                        <input type="text" placeholder="Search"
+                            class="w-40 bg-transparent border-b border-gray-200 py-2 text-sm focus:outline-none focus:border-orange-500 transition-all">
+                        <svg class="w-4 h-4 absolute right-0 top-3 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+                @foreach ($articles->take(6) as $article)
+                    <div class="group cursor-pointer p-4 transition-all duration-300 hover:bg-white hover:shadow-gray-100">
+                        <div
+                            class="relative aspect-[4/3] rounded-[2rem] overflow-hidden mb-6 shadow-sm group-hover:shadow-xl transition-all duration-500">
+                            <img src="{{ $article->image ? asset('storage/' . $article->image) : 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80' }}"
+                                alt="{{ $article->title }}"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        </div>
+
+                        <div class="flex items-center space-x-3 mb-3">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=random"
+                                class="w-6 h-6 rounded-full">
+                            <span class="text-xs font-bold text-[#1a1c2e]">{{ $article->user->name }}</span>
+                        </div>
+
+                        <h3
+                            class="text-xl font-extrabold text-[#1a1c2e] leading-snug mb-3 group-hover:text-orange-600 transition-colors line-clamp-2">
+                            {{ $article->title }}
+                        </h3>
+
+                        <div
+                            class="flex items-center space-x-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                            <span>— {{ $article->category->name ?? 'Technologies' }}</span>
+                        </div>
+
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                            {{ Str::limit($article->content, 120) }}
+                        </p>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-50">
+                            <div class="flex items-center space-x-4 text-xs font-bold text-gray-400">
+                                <span class="flex items-center"><i class="far fa-heart mr-1.5"></i> 2,124</span>
+                                <span class="flex items-center"><i class="far fa-comment mr-1.5"></i> 735</span>
+                                <span class="flex items-center"><i class="far fa-bookmark mr-1.5"></i> 735</span>
+                            </div>
+
+                            <a href="#"
+                                class="w-10 h-10 bg-[#f15a24] text-white rounded-xl flex items-center justify-center transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-orange-100">
+                                <svg class="w-5 h-5 transform rotate-45" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </a>
+                        </div>
+
+                        @auth
+                            @if ($article->user_id === auth()->id())
+                                <div class="mt-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <a href="{{ route('articles.edit', $article) }}"
+                                        class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Edit</a>
+                                    <span class="text-gray-300">|</span>
+                                    <form action="{{ route('articles.destroy', $article) }}" method="POST"
+                                        onsubmit="return confirm('Hapus?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit"
+                                            class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Delete</button>
+                                    </form>
+                                </div>
+                            @endif
+                        @endauth
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Must Read Section -->
+        <div class="mb-16">
+
+            <div class="flex justify-between items-end mb-10">
+                <h2 class="text-4xl font-extrabold text-[#1a1c2e]">Must Read</h2>
+                <a href="#"
+                    class="text-sm font-bold text-orange-600 flex items-center hover:underline uppercase tracking-wider">
+                    See all
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
             </div>
-            <div class="relative">
-                <img src="{{ $featured->image ? asset('storage/'.$featured->image) : 'https://via.placeholder.com/800x500' }}" 
-                     class="w-full h-[450px] object-cover rounded-3xl shadow-2xl" alt="Featured Image">
-                <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white px-6 py-2 rounded-full shadow-md flex gap-4 text-sm font-bold">
-                    <span class="text-gray-300">2</span> <span class="text-gray-800">/ 6</span>
-                </div>
-            </div>
-        </div>
-        @endif
-    </header>
 
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="flex justify-between items-end mb-10">
-            <div>
-                <h2 class="text-3xl font-black">Latest Articles</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                @foreach ($articles->take(1) as $article)
+                    <div class="lg:col-span-7 group cursor-pointer">
+                        <div class="relative aspect-[16/8] rounded-[2rem] overflow-hidden mb-8 shadow-sm">
+                            <img src="{{ $article->image ? asset('storage/' . $article->image) : 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80' }}"
+                                alt="{{ $article->title }}"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        </div>
+
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=random"
+                                class="w-6 h-6 rounded-full">
+                            <span class="text-xs font-bold text-[#1a1c2e]">{{ $article->user->name }}</span>
+                            <span class="text-gray-300">—</span>
+                            <span
+                                class="text-xs font-bold text-gray-400">{{ $article->created_at->diffForHumans() }}</span>
+                        </div>
+
+                        <h3
+                            class="text-3xl font-extrabold text-[#1a1c2e] leading-tight mb-4 group-hover:text-orange-600 transition-colors">
+                            {{ $article->title }}
+                        </h3>
+
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">
+                            {{ Str::limit($article->content, 180) }}
+                        </p>
+
+                        <div
+                            class="flex items-center space-x-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                            <span>{{ $article->category->name ?? 'Technologies' }}</span>
+                            <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                            <span>2min read</span>
+                        </div>
+                    </div>
+                @endforeach
+
+                <div class="lg:col-span-5 space-y-8">
+                    @foreach ($articles as $article)
+                        <div class="flex items-start space-x-6 group cursor-pointer">
+                            <div class="flex-shrink-0 w-32 aspect-square rounded-2xl overflow-hidden shadow-sm">
+                                <img src="{{ $article->image ? asset('storage/' . $article->image) : 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=300&q=80' }}"
+                                    alt="{{ $article->title }}"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            </div>
+
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=random"
+                                        class="w-5 h-5 rounded-full">
+                                    <span class="text-[10px] font-bold text-[#1a1c2e]">{{ $article->user->name }}</span>
+                                    <span class="text-gray-300">—</span>
+                                    <span class="text-[10px] font-bold text-gray-400">6 hours ago</span>
+                                </div>
+
+                                <h4
+                                    class="text-base font-extrabold text-[#1a1c2e] leading-snug mb-3 group-hover:text-orange-600 transition-colors line-clamp-2">
+                                    {{ $article->title }}
+                                </h4>
+
+                                <div
+                                    class="flex items-center space-x-3 text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                    <span>{{ $article->category->name ?? 'Technologies' }}</span>
+                                    <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                    <span>2min read</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
             </div>
-            <div class="hidden md:flex gap-4">
-                <button class="px-5 py-2 rounded-full border border-gray-200 text-sm font-bold hover:bg-black hover:text-white transition">Technologies</button>
-                <button class="px-5 py-2 rounded-full border border-gray-200 text-sm font-bold hover:bg-black hover:text-white transition">Digital Marketing</button>
-                <div class="relative">
-                    <input type="text" placeholder="Search..." class="pl-4 pr-10 py-2 border border-gray-200 rounded-full text-sm">
-                    <svg class="w-4 h-4 absolute right-4 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+
+        <!-- Weekly Highlights Section -->
+        <div class="mb-16">
+
+            <div class="flex justify-between items-end mb-12">
+                <h2 class="text-4xl font-extrabold text-[#1a1c2e] tracking-tight">Weekly Highlights</h2>
+                <a href="#"
+                    class="text-sm font-bold text-orange-600 flex items-center hover:underline uppercase tracking-wider">
+                    See all
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="swiper weeklySwiper !overflow-visible">
+                <div class="swiper-wrapper">
+                    @foreach ($articles as $article)
+                        <div class="swiper-slide h-auto">
+                            <div
+                                class="group cursor-pointer p-5 rounded-[2.5rem] transition-all duration-300 hover:bg-white hover:shadow-2xl hover:shadow-gray-200/50 bg-transparent border border-transparent">
+
+                                <div class="relative aspect-[4/3] rounded-[2rem] overflow-hidden mb-6 shadow-sm">
+                                    <img src="{{ $article->image ? asset('storage/' . $article->image) : 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80' }}"
+                                        alt="{{ $article->title }}"
+                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                </div>
+
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=random"
+                                        class="w-5 h-5 rounded-full shadow-sm">
+                                    <span
+                                        class="text-[10px] font-bold text-[#1a1c2e] uppercase tracking-tight">{{ $article->user->name }}</span>
+                                </div>
+
+                                <h3
+                                    class="text-xl font-extrabold text-[#1a1c2e] leading-snug mb-3 group-hover:text-orange-600 transition-colors line-clamp-2">
+                                    {{ $article->title }}
+                                </h3>
+
+                                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
+                                    — {{ $article->category->name ?? 'Technologies' }}
+                                </div>
+
+                                <div class="flex items-center justify-between pt-5 border-t border-gray-50">
+                                    <div class="flex items-center space-x-4 text-[11px] font-bold text-gray-400">
+                                        <span class="flex items-center"><i class="far fa-heart mr-1.5 text-xs"></i>
+                                            2,124</span>
+                                        <span class="flex items-center"><i class="far fa-comment mr-1.5 text-xs"></i>
+                                            735</span>
+                                    </div>
+
+                                    <div
+                                        class="w-10 h-10 bg-[#f15a24] text-white rounded-xl flex items-center justify-center transform transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 shadow-lg shadow-orange-200">
+                                        <svg class="w-5 h-5 transform rotate-45" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            @foreach($articles->skip(1) as $article) {{-- Skip 1 karena sudah tampil di Hero --}}
-            <article class="group cursor-pointer">
-                <div class="relative overflow-hidden rounded-2xl mb-4">
-                    <img src="{{ $article->image ? asset('storage/'.$article->image) : 'https://via.placeholder.com/400x300' }}" 
-                         class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="flex items-center gap-2 text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">
-                    <img src="https://ui-avatars.com/api/?name={{ $article->user->name }}" class="w-6 h-6 rounded-full">
-                    <span>{{ $article->user->name }}</span>
-                    <span>•</span>
-                    <span class="text-orange-500">{{ $article->category->name }}</span>
-                </div>
-                <h3 class="text-xl font-extrabold group-hover:text-orange-500 transition mb-3">
-                    {{ $article->title }}
-                </h3>
-                <p class="text-gray-500 text-sm line-clamp-2 mb-4">
-                    {{ Str::limit(strip_tags($article->content), 100) }}
-                </p>
-                <div class="flex items-center justify-between text-gray-400 text-xs">
-                    <div class="flex gap-4">
-                        <span>👁️ 2,124</span>
-                        <span>💬 735</span>
-                    </div>
-                    <div class="bg-orange-500 p-2 text-white rounded-bl-xl opacity-0 group-hover:opacity-100 transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
-                </div>
-            </article>
-            @endforeach
+    </div>
+
+    @if (session('success'))
+        <div class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+            {{ session('success') }}
         </div>
-    </section>
-</div>
+        <script>
+            setTimeout(() => {
+                document.querySelector('.fixed').remove();
+            }, 3000);
+        </script>
+    @endif
 @endsection

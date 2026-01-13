@@ -18,6 +18,7 @@ class ArticleSeeder extends Seeder
             'title' => 'Inovasi Teknologi Terkini di Tahun 2024',
             'slug' => Str::slug('Inovasi Teknologi Terkini di Tahun 2024'),
             'content' => 'Tahun 2024 membawa berbagai inovasi teknologi yang mengubah cara kita hidup dan bekerja. Dari kecerdasan buatan hingga teknologi hijau, mari kita jelajahi beberapa tren utama yang akan mendominasi tahun ini.',
+            'image' => 'articles/image1.jpg',
             'user_id' => 1,
             'category_id' => 1,
         ]);
@@ -26,6 +27,7 @@ class ArticleSeeder extends Seeder
             'title' => 'Tips Menjaga Kesehatan di Era Digital',
             'slug' => Str::slug('Tips Menjaga Kesehatan di Era Digital'),
             'content' => 'Di era digital saat ini, menjaga kesehatan menjadi tantangan tersendiri. Berikut adalah beberapa tips untuk tetap sehat secara fisik dan mental di tengah kesibukan teknologi.',
+            'image' => 'articles/image2.jpg',
             'user_id' => 2,
             'category_id' => 2,
         ]);
@@ -34,6 +36,7 @@ class ArticleSeeder extends Seeder
             'title' => 'Strategi Bisnis yang Efektif di Pasar Global',
             'slug' => Str::slug('Strategi Bisnis yang Efektif di Pasar Global'),
             'content' => 'Dalam menghadapi pasar global yang kompetitif, perusahaan perlu mengadopsi strategi bisnis yang efektif. Artikel ini membahas beberapa pendekatan yang dapat membantu bisnis Anda berkembang di tingkat internasional.',
+            'iamge' => 'articles/image3.jpg',
             'user_id' => 1,
             'category_id' => 3,
         ]);

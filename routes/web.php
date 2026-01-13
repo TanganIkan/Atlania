@@ -29,11 +29,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // ===== PROTECTED CRUD =====
 Route::middleware('auth')->group(function () {
-    Route::get('/articles/create', [ArticleController::class, 'create']);
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store']);
 
-    Route::get('/articles/{article}/edit', [ArticleController::class, 'edit']);
+    Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::put('/articles/{article}', [ArticleController::class, 'update']);
 
-    Route::delete('/articles/{article}', [ArticleController::class, 'destroy']);
+    Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
