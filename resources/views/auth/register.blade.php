@@ -1,4 +1,7 @@
-@extends('layout.auth') @section('title', 'Register') @section('auth-content')
+@extends('layout.auth')
+@section('title', 'Register')
+
+@section('auth-content')
     <h1 class="text-center text-[22px] font-semibold text-black mb-2">
         Daftar Akun
     </h1>
@@ -7,32 +10,47 @@
         Masukkan detail untuk melakukan register
     </p>
 
-    <form method="POST" action="{{ route('auth.register') }}" class="space-y-5">
+    {{-- Pastikan route name ini sesuai dengan yang ada di web.php --}}
+    <form method="POST" action="{{ route('auth.register_process') }}" class="space-y-5">
         @csrf
+
+        {{-- Input Nama --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Nama*
             </label>
-            <input type="text" name="name" required placeholder="Masukkan nama"
-                class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
+            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Masukkan nama"
+                class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black] @error('name') border-red-500 @enderror" />
+            @error('name')
+                <span class="text-[10px] text-red-500 font-bold italic mt-1 block">{{ $message }}</span>
+            @enderror
         </div>
 
+        {{-- Input Email --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Email*
             </label>
-            <input type="email" name="email" required placeholder="Masukkan email"
-                class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
+            <input type="email" name="email" value="{{ old('email') }}" required placeholder="Masukkan email"
+                class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black] @error('email') border-red-500 @enderror" />
+            @error('email')
+                <span class="text-[10px] text-red-500 font-bold italic mt-1 block">{{ $message }}</span>
+            @enderror
         </div>
 
+        {{-- Input Password --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Password*
             </label>
             <input type="password" name="password" required placeholder="Masukkan password"
-                class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black]" />
+                class="w-full px-3 py-2 text-sm border border-black bg-white shadow-[3px_3px_0px_0px_black] placeholder:text-gray-400 transition-all duration-150 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[1px_1px_0px_0px_black] @error('password') border-red-500 @enderror" />
+            @error('password')
+                <span class="text-[10px] text-red-500 font-bold italic mt-1 block">{{ $message }}</span>
+            @enderror
         </div>
 
+        {{-- Input Konfirmasi Password --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Konfirmasi Password*
@@ -43,9 +61,7 @@
 
         <p class="text-[10px] text-black max-w-[280px] leading-snug">
             Informasi ini akan disimpan dengan aman sesuai dengan
-            <strong>Ketentuan Layanan</strong>
-            dan
-            <a href="#" class="underline font-semibold">Kebijakan Privasi</a>
+            <strong>Ketentuan Layanan</strong> dan <a href="#" class="underline font-semibold">Kebijakan Privasi</a>
         </p>
 
         <div class="flex flex-col gap-3 pt-2">
@@ -54,7 +70,7 @@
                 Daftar
             </button>
 
-            <a href="/login"
+            <a href="{{ route('auth.login') }}"
                 class="text-center border border-black px-6 py-2 text-sm font-semibold bg-white shadow-[3px_3px_0px_0px_black] transition-all duration-150 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_0px_black]">
                 Sudah punya akun? Login
             </a>

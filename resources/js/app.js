@@ -10,8 +10,8 @@ const initWeeklySlider = () => {
             slidesPerView: 1,
             spaceBetween: 24,
             grabCursor: true,
-            loop: true,
-            speed: 800,
+            loop: false,
+            speed: 400,
             autoplay: { delay: 4000 },
             breakpoints: {
                 640: { slidesPerView: 2 },

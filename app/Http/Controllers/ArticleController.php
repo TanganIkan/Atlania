@@ -79,4 +79,15 @@ class ArticleController extends Controller
         $article->delete();
         return redirect(route('dashboard'))->with('success', 'Article dihapus');
     }
+
+    public function show(Article $article)
+    {
+        $relatedArticles = Article::where('user_id', $article->user_id)
+            ->where('id', '!=', $article->id)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('articles.show', compact('article', 'relatedArticles'));
+    }
 }

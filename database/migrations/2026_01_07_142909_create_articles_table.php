@@ -20,6 +20,10 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
 
+            $table->unsignedBigInteger('likes_count')->default(0);
+            $table->unsignedBigInteger('comments_count')->default(0);
+            $table->unsignedBigInteger('save_count')->default(0);
+
             $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });

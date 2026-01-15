@@ -6,11 +6,13 @@ use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Auth;
 
 // ===== AUTH =====
-Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('/login', [AuthController::class, 'loginProcess']);
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/login', [AuthController::class, 'loginProcess'])->name('auth.login.process');
 
-Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/register', [AuthController::class, 'registerProcess']);
+    Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/register', [AuthController::class, 'registerProcess'])->name('auth.register.process');
+});
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -37,3 +39,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
+
+// ===== PUBLIC ARTICLE VIEW =====
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');

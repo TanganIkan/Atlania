@@ -8,7 +8,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
@@ -39,8 +39,7 @@
                     </div>
                     <a href="#"
                         class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">Feature</a>
-                    <a href="#"
-                        class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">About</a>
+                    <a href="#" class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">About</a>
                 </div>
 
                 <div class="flex justify-center">
@@ -73,8 +72,7 @@
                             </a>
                             <form method="POST" action="{{ route('auth.logout') }}" class="inline ml-3">
                                 @csrf
-                                <button type="submit"
-                                    class="text-xs font-bold text-gray-500 hover:text-red-600 transition">
+                                <button type="submit" class="text-xs font-bold text-gray-500 hover:text-red-600 transition">
                                     LOGOUT
                                 </button>
                             </form>
@@ -95,7 +93,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[#1a1c2e] text-white pt-24 pb-12 mt-20 font-['Plus_Jakarta_Sans',sans-serif]">
+    <footer class="bg-[#1a1c2e] text-white pt-24 pb-12 font-['Plus_Jakarta_Sans',sans-serif]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="flex flex-col items-center text-center mb-24 relative">
