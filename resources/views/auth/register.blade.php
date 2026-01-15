@@ -10,11 +10,9 @@
         Masukkan detail untuk melakukan register
     </p>
 
-    {{-- Pastikan route name ini sesuai dengan yang ada di web.php --}}
-    <form method="POST" action="{{ route('auth.register_process') }}" class="space-y-5">
+    <form method="POST" action="{{ route('auth.register.process') }}" class="space-y-5">
         @csrf
 
-        {{-- Input Nama --}}
         <div>
             <label class="block text-[12px] font-semibold text-black mb-1">
                 Nama*

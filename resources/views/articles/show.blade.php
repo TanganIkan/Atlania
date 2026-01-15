@@ -22,7 +22,9 @@
                 </div>
 
                 <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed font-medium">
-                    {!! nl2br(e($article->content)) !!}
+                    <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed font-medium">
+                        {!! $article->content !!}
+                    </div>
                 </div>
             </div>
 
@@ -42,7 +44,8 @@
                             <div>
                                 <h4 class="font-extrabold text-[#1a1c2e] leading-none">{{ $article->user->name }}</h4>
                                 <p class="text-[10px] text-gray-400 font-bold mt-1">
-                                    {{ $article->created_at->format('M d, Y') }}</p>
+                                    {{ $article->created_at->format('M d, Y') }}
+                                </p>
                             </div>
                         </div>
 
@@ -55,10 +58,19 @@
                                 <span class="flex items-center"><i class="far fa-bookmark mr-1.5 text-gray-400"></i>
                                     {{ $article->save_count }}</span>
                             </div>
-                            <button
-                                class="w-10 h-10 bg-white shadow-xl rounded-xl flex items-center justify-center text-[#f15a24]">
-                                <i class="far fa-bookmark"></i>
-                            </button>
+                            <div class="flex space-x-2">
+                                <!-- Bookmark -->
+                                <button
+                                    class="w-10 h-10 bg-white shadow-xl rounded-xl flex items-center justify-center text-[#f15a24]">
+                                    <i class="far fa-bookmark"></i>
+                                </button>
+
+                                <!-- Download PDF -->
+                                <a href="{{ route('articles.download.pdf', $article->id) }}" title="Download PDF"
+                                    class="w-10 h-10 bg-white shadow-xl rounded-xl flex items-center justify-center text-red-500 hover:bg-red-50 transition">
+                                    <i class="far fa-file-pdf"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -71,7 +83,7 @@
                                     class="group flex items-center gap-4 p-2 hover:bg-gray-50 rounded-2xl transition-all">
                                     <div class="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
                                         @if ($related->image)
-                                            <img src="{{ $related->image }}"
+                                            <img src="{{$related->image}}"
                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                         @endif
                                     </div>

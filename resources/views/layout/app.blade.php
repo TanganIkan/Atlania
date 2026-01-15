@@ -70,15 +70,24 @@
                                 class="text-xs font-bold bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition">
                                 WRITE
                             </a>
-                            <form method="POST" action="{{ route('auth.logout') }}" class="inline ml-3">
+
+                            <a href="{{ route('articles.my') }}"
+                                class="text-xs font-bold text-slate-600 hover:text-orange-500 transition uppercase tracking-wider ml-4">
+                                See My Article
+                            </a>
+
+                            <form method="POST" action="{{ route('auth.logout') }}"
+                                class="inline ml-4 border-l pl-4 border-gray-200">
                                 @csrf
-                                <button type="submit" class="text-xs font-bold text-gray-500 hover:text-red-600 transition">
+                                <button type="submit" class="text-xs font-bold text-gray-400 hover:text-red-600 transition">
                                     LOGOUT
                                 </button>
                             </form>
                         @else
                             <a href="{{ route('auth.login') }}"
-                                class="text-xs font-bold text-slate-600 hover:text-orange-500 transition uppercase tracking-wider">Login</a>
+                                class="text-xs font-bold text-slate-600 hover:text-orange-500 transition uppercase tracking-wider">
+                                Login
+                            </a>
                         @endauth
                     </div>
                 </div>

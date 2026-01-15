@@ -1,8 +1,13 @@
 import "./bootstrap";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
+import "./bootstrap";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
 
-// Inisialisasi slider Weekly Highlights
+window.Quill = Quill;
+
+// slider
 const initWeeklySlider = () => {
     const element = document.querySelector(".weeklySwiper");
     if (element) {

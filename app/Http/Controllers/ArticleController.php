@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -26,22 +28,31 @@ class ArticleController extends Controller
 
     public function create()
     {
+
         $categories = Category::all();
         return view('articles.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
-        Article::create([
-            'title' => request('title'),
-            'slug' => Str::slug(request('title')),
-            'content' => request('content'),
-            'category_id' => request('category_id'),
-            'user_id' => auth()->id(),
-        ]);
+        // Menggunakan $request->input() dan Auth::id() untuk menghilangkan garis merah di VS Code
+        $data = [
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->input('title')),
+            'content' => $request->input('content'),
+            'category_id' => $request->input('category_id'),
+            'user_id' => Auth::id(),
+        ];
 
+        if ($request->hasFile('image')) {
+            // Simpan file ke storage/app/public/articles
+            $path = $request->file('image')->store('articles', 'public');
+            $data['image'] = $path;
+        }
 
-        return redirect(route('dashboard'))->with('success', 'Article created successfully.');
+        Article::create($data);
+
+        return redirect()->route('dashboard')->with('success', 'Article created successfully!');
     }
 
     public function edit(Article $article)
@@ -89,5 +100,28 @@ class ArticleController extends Controller
             ->get();
 
         return view('articles.show', compact('article', 'relatedArticles'));
+    }
+
+    public function myArticles()
+    {
+        $articles = Article::where('user_id', auth()->id())
+            ->latest()
+            ->paginate(10);
+
+        return view('articles.my-articles', compact('articles'));
+    }
+
+    public function downloadPdf($id)
+    {
+        $article = Article::with('user', 'category')->findOrFail($id);
+
+        $pdf = Pdf::loadView('articles.pdf', compact('article'))
+            ->setPaper('A4', 'portrait')
+            ->setOption([
+                'isRemoteEnabled' => true,
+                'isHtml5ParserEnabled' => true
+            ]);
+
+        return $pdf->download(str_replace(' ', '-', strtolower($article->title)) . '.pdf');
     }
 }

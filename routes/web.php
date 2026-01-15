@@ -32,7 +32,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // ===== PROTECTED CRUD =====
 Route::middleware('auth')->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
-    Route::post('/articles', [ArticleController::class, 'store']);
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 
     Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::put('/articles/{article}', [ArticleController::class, 'update']);
@@ -42,3 +42,9 @@ Route::middleware('auth')->group(function () {
 
 // ===== PUBLIC ARTICLE VIEW =====
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+Route::middleware('auth')->group(function () {
+    Route::get('/my-articles', [ArticleController::class, 'myArticles'])->name('articles.my');
+});
+
+// PDF DOWNLOAD
+Route::get('/articles/{id}/download-pdf', [ArticleController::class, 'downloadPdf'])->name('articles.download.pdf');

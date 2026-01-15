@@ -3,7 +3,6 @@
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        <!-- Hero Section -->
         <div class="mb-16">
             <div class="grid md:grid-cols-2 gap-12 items-center">
 
@@ -26,13 +25,12 @@
 
                     <div class="flex items-start space-x-5">
                         <p class="text-gray-400 text-sm leading-relaxed max-w-ld">
-                            {{ Str::limit($articles->first()->content, 160) ?? 'The Future of Artificial Intelligence: Trends and Implications. The Future of Artificial Intelligence: Trends and Implications.' }}
+                            {{ Str::limit(strip_tags($articles->first()->content), 160) ?? 'The Future of Artificial Intelligence: Trends and Implications...' }}
                         </p>
 
                         <a href="{{ route('articles.show', optional($articles->first())->slug) }}"
                             class="flex-shrink-0 w-14 h-14 bg-[#f15a24] text-white rounded-xl flex items-center justify-center hover:bg-[#d44d1d] hover:translate-x-1 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-orange-200 group-hover:scale-110">
-                            <svg class="w-6 h-6 transform rotate-45" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                     d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
@@ -100,7 +98,7 @@
                         <div
                             class="relative aspect-[4/3] rounded-[2rem] overflow-hidden mb-6 shadow-sm bg-gray-200 flex items-center justify-center">
                             @if ($article->image)
-                                <img src="{{ $article->image }}" alt="{{ $article->title }}"
+                                <img src="{{$article->image}}" alt="{{ $article->title }}"
                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             @else
                                 <span class="text-gray-400 font-bold uppercase text-[10px]">No Preview</span>
@@ -124,7 +122,7 @@
                         </div>
 
                         <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-3">
-                            {{ Str::limit($article->content, 120) }}
+                            {{ Str::limit(strip_tags($article->content), 120) }}
                         </p>
 
                         <div class="flex items-center justify-between pt-4 border-t border-gray-50">
@@ -147,29 +145,12 @@
 
                             <a href="{{ route('articles.show', $article->slug) }}"
                                 class="w-10 h-10 bg-[#f15a24] text-white rounded-xl flex items-center justify-center transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-orange-100">
-                                <svg class="w-5 h-5 transform rotate-45" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                         d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                 </svg>
                             </a>
                         </div>
-
-                        @auth
-                            @if ($article->user_id === auth()->id())
-                                <div class="mt-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <a href="{{ route('articles.edit', $article) }}"
-                                        class="text-[10px] font-bold text-blue-500 uppercase tracking-widest">Edit</a>
-                                    <span class="text-gray-300">|</span>
-                                    <form action="{{ route('articles.destroy', $article) }}" method="POST"
-                                        onsubmit="return confirm('Hapus?')">
-                                        @csrf @method('DELETE')
-                                        <button type="submit"
-                                            class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Delete</button>
-                                    </form>
-                                </div>
-                            @endif
-                        @endauth
                     </div>
                 @endforeach
             </div>
@@ -187,7 +168,6 @@
                     </svg>
                 </a>
             </div>
-
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 @foreach ($articles->take(1) as $article)
@@ -208,8 +188,7 @@
                                 class="w-6 h-6 rounded-full">
                             <span class="text-xs font-bold text-[#1a1c2e]">{{ $article->user->name }}</span>
                             <span class="text-gray-300">—</span>
-                            <span
-                                class="text-xs font-bold text-gray-400">{{ $article->created_at->diffForHumans() }}</span>
+                            <span class="text-xs font-bold text-gray-400">{{ $article->created_at->diffForHumans() }}</span>
                         </div>
 
                         <a href="{{ route('articles.show', $article->slug) }}" class="block">
@@ -219,11 +198,10 @@
                             </h3>
                         </a>
                         <p class="text-gray-400 text-sm leading-relaxed mb-6 line-clamp-2">
-                            {{ Str::limit($article->content, 180) }}
+                            {{ Str::limit(strip_tags($article->content), 180) }}
                         </p>
 
-                        <div
-                            class="flex items-center space-x-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        <div class="flex items-center space-x-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                             <span>{{ $article->category->name ?? 'Technologies' }}</span>
                             <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
                             <span>{{ $article->read_time ?? '2min read' }}</span>
@@ -249,8 +227,7 @@
                                     <div class="flex items-center space-x-2 mb-2">
                                         <img src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=random"
                                             class="w-5 h-5 rounded-full">
-                                        <span
-                                            class="text-[10px] font-bold text-[#1a1c2e]">{{ $article->user->name }}</span>
+                                        <span class="text-[10px] font-bold text-[#1a1c2e]">{{ $article->user->name }}</span>
                                         <span class="text-gray-300">—</span>
                                         <span class="text-[10px] font-bold text-gray-400">6 hours ago</span>
                                     </div>
@@ -321,8 +298,7 @@
 
                                     <div class="flex items-center justify-between pt-5 border-t border-gray-50">
                                         <div class="flex items-center space-x-4 text-[11px] font-bold text-gray-400">
-                                            <span
-                                                class="flex items-center hover:text-red-500 transition-colors cursor-pointer">
+                                            <span class="flex items-center hover:text-red-500 transition-colors cursor-pointer">
                                                 <i class="far fa-heart mr-1.5 text-xs"></i>
                                                 {{ number_format($article->likes_count) }}
                                             </span>
