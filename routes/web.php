@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 
 // ===== AUTH =====
@@ -48,3 +49,12 @@ Route::middleware('auth')->group(function () {
 
 // PDF DOWNLOAD
 Route::get('/articles/{id}/download-pdf', [ArticleController::class, 'downloadPdf'])->name('articles.download.pdf');
+
+// ADMIN
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    Route::get('/chart/users', [AdminController::class, 'chartUsers'])->name('admin.chart.users');
+    Route::get('/chart/articles', [AdminController::class, 'chartArticles'])->name('admin.chart.articles');
+    Route::get('/chart/popular-articles', [AdminController::class, 'chartPopularArticles'])->name('admin.chart.popular');
+});
