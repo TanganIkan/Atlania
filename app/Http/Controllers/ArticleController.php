@@ -8,7 +8,6 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -57,7 +56,7 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        if ($article->user_id !== auth()->id() && !Auth::user()->role === 'admin') {
+        if ($article->user_id !== auth()->id() && Auth::user()->role !== 'admin') {
             abort(403);
         }
 
@@ -67,7 +66,7 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        if ($article->user_id !== auth()->id() && !Auth::user()->role === 'admin') {
+        if ($article->user_id !== auth()->id() && Auth::user()->role !== 'admin') {
             abort(403);
         }
 
@@ -83,7 +82,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        if ($article->user_id !== auth()->id() && !Auth::user()->role === 'admin') {
+        if ($article->user_id !== auth()->id() && Auth::user()->role !== 'admin') {
             abort(403);
         }
 
@@ -125,19 +124,5 @@ class ArticleController extends Controller
             ->paginate(10);
 
         return view('admin.admin-articles', compact('articles'));
-    }
-
-    public function downloadPdf($id)
-    {
-        $article = Article::with('user', 'category')->findOrFail($id);
-
-        $pdf = Pdf::loadView('articles.pdf', compact('article'))
-            ->setPaper('A4', 'portrait')
-            ->setOption([
-                'isRemoteEnabled' => true,
-                'isHtml5ParserEnabled' => true
-            ]);
-
-        return $pdf->download(str_replace(' ', '-', strtolower($article->title)) . '.pdf');
     }
 }

@@ -40,6 +40,17 @@
                     <a href="#"
                         class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">Feature</a>
                     <a href="#" class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">About</a>
+                
+                    {{-- MENU DASHBOARD ADMIN --}}
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <a href="{{ route('admin.dashboard') }}"
+                            class="relative text-orange-600 hover:text-orange-700 transition text-sm font-bold">
+                                Dashboard
+                                <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-orange-500 scale-x-0 hover:scale-x-100 transition-transform origin-left"></span>
+                            </a>
+                        @endif
+                    @endauth
                 </div>
 
                 <div class="flex justify-center">
