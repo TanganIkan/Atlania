@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\ArticleView;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ArticleController extends Controller
 {
@@ -96,6 +98,12 @@ class ArticleController extends Controller
             ->latest()
             ->take(3)
             ->get();
+
+        ArticleView::firstOrCreate([
+            'article_id' => $article->id,
+            'session_id' => Session::getId(),
+            'view_date'  => now()->toDateString(),
+        ]);
 
         return view('articles.show', compact('article', 'relatedArticles'));
     }
