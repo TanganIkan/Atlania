@@ -101,8 +101,7 @@
         <hr>
 
         <div class="content">
-            {{-- Menggunakan nl2br agar paragraf dari content tetap terjaga formatnya --}}
-            {!! nl2br(e($article->content)) !!}
+            {!! nl2br(strip_tags($article->content)) !!}
         </div>
 
         <div class="footer">

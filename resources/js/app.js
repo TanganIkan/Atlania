@@ -4,6 +4,7 @@ import "swiper/css/bundle";
 import "./bootstrap";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import "flowbite";
 
 window.Quill = Quill;
 

@@ -4,7 +4,7 @@
     <div
         class="relative aspect-[4/3] rounded-[2rem] overflow-hidden mb-6 shadow-sm bg-gray-200 flex items-center justify-center">
         @if ($article->image)
-            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
+            <img src="{{$article->image}}" alt="{{ $article->title }}"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
         @else
             <span class="text-gray-400 font-bold uppercase text-[10px]">No Preview</span>

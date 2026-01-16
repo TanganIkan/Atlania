@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    <main class="max-w-6xl mx-auto px-4 py-12 font-['Plus_Jakarta_Sans']">
+    <main class="max-w-6xl mx-auto px-4 py-12">
         <div class="mb-10">
             <h1 class="text-2xl font-bold text-[#1a1c2e] uppercase tracking-tight">Buat Artikel Baru</h1>
             <p class="text-sm text-gray-400">Bagikan ide dan inspirasimu hari ini.</p>

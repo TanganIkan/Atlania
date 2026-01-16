@@ -35,24 +35,22 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        // Menggunakan $request->input() dan Auth::id() untuk menghilangkan garis merah di VS Code
         $data = [
             'title' => $request->input('title'),
-            'slug' => Str::slug($request->input('title')),
+            'slug' => Str::slug($request->input('title')) . '-' . Str::random(5),
             'content' => $request->input('content'),
             'category_id' => $request->input('category_id'),
             'user_id' => Auth::id(),
         ];
 
         if ($request->hasFile('image')) {
-            // Simpan file ke storage/app/public/articles
             $path = $request->file('image')->store('articles', 'public');
             $data['image'] = $path;
         }
 
         Article::create($data);
 
-        return redirect()->route('dashboard')->with('success', 'Article created successfully!');
+        return redirect()->route('articles.my')->with('success', 'Article created successfully!');
     }
 
     public function edit(Article $article)
@@ -78,7 +76,7 @@ class ArticleController extends Controller
             'category_id' => request('category_id'),
         ]);
 
-        return redirect(route('dashboard'))->with('success', 'Article diperbarui');
+        return redirect(route('articles.my'))->with('success', 'Article diperbarui');
     }
 
     public function destroy(Article $article)
@@ -88,7 +86,7 @@ class ArticleController extends Controller
         }
 
         $article->delete();
-        return redirect(route('dashboard'))->with('success', 'Article dihapus');
+        return redirect(route('articles.my'))->with('success', 'Article dihapus');
     }
 
     public function show(Article $article)
