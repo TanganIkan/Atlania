@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
     </style>
 </head>
 
@@ -55,6 +59,15 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('admin.articles') }}"
+                        class="flex items-center p-3 rounded-2xl transition
+        {{ request()->routeIs('admin.articles*') ? 'bg-orange-50 text-[#f15a24]' : 'text-gray-500 hover:bg-orange-50 hover:text-[#f15a24]' }}">
+                        <i class="fas fa-newspaper w-5 h-5 flex items-center justify-center"></i>
+                        <span class="ml-3">Artikel</span>
+                    </a>
+                </li>
+
+                <li>
                     <form method="POST" action="{{ route('auth.logout') }}">
                         @csrf
                         <button type="submit"
@@ -79,4 +92,5 @@
     {{-- Flowbite --}}
     <script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>
+
 </html>

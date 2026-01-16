@@ -57,7 +57,7 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        if ($article->user_id !== auth()->id()) {
+        if ($article->user_id !== auth()->id() && !Auth::user()->role === 'admin') {
             abort(403);
         }
 
@@ -67,7 +67,7 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        if ($article->user_id !== auth()->id()) {
+        if ($article->user_id !== auth()->id() && !Auth::user()->role === 'admin') {
             abort(403);
         }
 
@@ -83,7 +83,7 @@ class ArticleController extends Controller
 
     public function destroy(Article $article)
     {
-        if ($article->user_id !== auth()->id()) {
+        if ($article->user_id !== auth()->id() && !Auth::user()->role === 'admin') {
             abort(403);
         }
 
@@ -102,7 +102,7 @@ class ArticleController extends Controller
         ArticleView::firstOrCreate([
             'article_id' => $article->id,
             'session_id' => Session::getId(),
-            'view_date'  => now()->toDateString(),
+            'view_date' => now()->toDateString(),
         ]);
 
         return view('articles.show', compact('article', 'relatedArticles'));
@@ -111,10 +111,20 @@ class ArticleController extends Controller
     public function myArticles()
     {
         $articles = Article::where('user_id', auth()->id())
+            ->with('category')
+            ->latest()
+            ->paginate(6);
+
+        return view('articles.my-articles', compact('articles'));
+    }
+
+    public function adminArticles()
+    {
+        $articles = Article::with(['user', 'category'])
             ->latest()
             ->paginate(10);
 
-        return view('articles.my-articles', compact('articles'));
+        return view('admin.admin-articles', compact('articles'));
     }
 
     public function downloadPdf($id)
