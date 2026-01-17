@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,35 +10,12 @@ use App\Models\Article;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password'];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -53,24 +29,48 @@ class User extends Authenticatable
         return $this->hasMany(Article::class);
     }
 
+    /**
+     * Statistik user terdaftar (daily / weekly / monthly)
+     */
     public function scopeGetStats($query, $period)
     {
-        // Masukkan match ke dalam variabel $query agar bisa di-chaining
-        $query = match ($period) {
-            'weekly' => $query->select(
-                DB::raw("YEARWEEK(created_at) as label"),
-                DB::raw("COUNT(*) as total")
-            ),
-            'monthly' => $query->select(
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as label"),
-                DB::raw("COUNT(*) as total")
-            ),
-            default => $query->select(
-                DB::raw("DATE(created_at) as label"),
-                DB::raw("COUNT(*) as total")
-            ),
-        };
+        if ($period === 'weekly') {
+            return $query
+                ->selectRaw('
+                    CONCAT(
+                        DATE_FORMAT(
+                            DATE_SUB(created_at, INTERVAL WEEKDAY(created_at) DAY),
+                            "%d"
+                        ),
+                        "–",
+                        DATE_FORMAT(
+                            DATE_ADD(created_at, INTERVAL (6 - WEEKDAY(created_at)) DAY),
+                            "%d %b %Y"
+                        )
+                    ) as label,
+                    COUNT(*) as total
+                ')
+                ->groupBy('label')
+                ->orderByRaw('MIN(created_at)');
+        }
 
-        return $query->groupBy('label')->orderBy('label');
+        if ($period === 'monthly') {
+            return $query
+                ->selectRaw('
+                    DATE_FORMAT(created_at, "%b %Y") as label,
+                    COUNT(*) as total
+                ')
+                ->groupBy('label')
+                ->orderByRaw('MIN(created_at)');
+        }
+
+        // DAILY (default)
+        return $query
+            ->selectRaw('
+                DATE(created_at) as label,
+                COUNT(*) as total
+            ')
+            ->groupBy('label')
+            ->orderBy('label');
     }
 }

@@ -18,13 +18,56 @@ class AdminController extends Controller
     {
         $totalUsers = User::count();
         $totalArticles = Article::count();
-        $popularToday = Article::getPopularByPeriod('daily')->first();
 
-        $popularArticle = $popularToday ?: Article::withCount('views')
-            ->orderBy('views_count', 'desc')
-            ->first();
+        /**
+         * =========================
+         * Artikel Terpopuler (Weekly)
+         * =========================
+         */
+        $popularWeekly = Article::getPopularByPeriod('weekly');
 
-        return view('admin.dashboard', compact('totalUsers', 'totalArticles', 'popularArticle'));
+        $heroArticle = null;
+        $popularArticles = collect();
+
+        if ($popularWeekly->isNotEmpty()) {
+            $ids = $popularWeekly->pluck('id');
+
+            $articlesById = Article::with('user', 'category')
+                ->whereIn('id', $ids)
+                ->get()
+                ->keyBy('id');
+
+            $heroArticle = $articlesById->get($popularWeekly->first()->id);
+
+            $popularArticles = $popularWeekly
+                ->skip(1)
+                ->take(6)
+                ->map(fn ($item) => $articlesById->get($item->id))
+                ->filter();
+        }
+
+        /**
+         * =========================
+         * Fallback
+         * =========================
+         */
+        if (!$heroArticle) {
+            $fallback = Article::with('user', 'category')
+                ->withCount('views')
+                ->orderByDesc('views_count')
+                ->take(7)
+                ->get();
+
+            $heroArticle = $fallback->first();
+            $popularArticles = $fallback->skip(1);
+        }
+
+        return view('admin.dashboard', compact(
+            'totalUsers',
+            'totalArticles',
+            'heroArticle',
+            'popularArticles'
+        ));
     }
 
     public function chartUsers(Request $request)
