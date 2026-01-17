@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Auth;
 
 // ===== AUTH =====
@@ -48,7 +49,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // PDF DOWNLOAD
-Route::get('/articles/{id}/download-pdf', [ArticleController::class, 'downloadPdf'])->name('articles.download.pdf');
+Route::get('/articles/{id}/download-pdf', [ExportController::class, 'downloadPdf'])->name('articles.download.pdf');
+
+// EXCEL DOWNLOAD
+Route::get('/admin/export/chart/{type}', [ExportController::class, 'downloadExcel'])->name('admin.export.chart');
 
 // ADMIN
 Route::prefix('admin')->middleware(['auth'])->group(function () {
