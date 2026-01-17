@@ -26,7 +26,7 @@
         <div class="bg-white rounded-[32px] p-6 shadow-sm border border-gray-50">
             <p class="text-xs uppercase tracking-widest text-gray-400">Terpopuler Hari Ini</p>
             <h3 class="text-base font-semibold text-[#1a1c2e] mt-2 leading-snug">
-                {{ $popularArticle->title ?? 'Belum ada data' }}
+                {{ $heroArticle->title ?? 'Belum ada data' }}
             </h3>
         </div>
     </div>

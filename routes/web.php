@@ -55,13 +55,17 @@ Route::get('/articles/{id}/download-pdf', [ExportController::class, 'downloadPdf
 Route::get('/admin/export/chart/{type}', [ExportController::class, 'downloadExcel'])->name('admin.export.chart');
 
 // ADMIN
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+// 1. Gabungkan semua rute Admin ke dalam satu grup PREFIX dan MIDDLEWARE yang ketat
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+
+    // Pastikan ini memanggil AdminController, bukan ArticleController
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
+    // Grouping Chart
     Route::get('/chart/users', [AdminController::class, 'chartUsers'])->name('admin.chart.users');
     Route::get('/chart/articles', [AdminController::class, 'chartArticles'])->name('admin.chart.articles');
     Route::get('/chart/popular-articles', [AdminController::class, 'chartPopularArticles'])->name('admin.chart.popular');
 
-    Route::get('/admin/admin-articles', [ArticleController::class, 'adminArticles'])->name('admin.articles');
-
+    // Perbaikan path: cukup 'admin-articles' karena sudah ada prefix 'admin'
+    Route::get('/admin-articles', [ArticleController::class, 'adminArticles'])->name('admin.articles');
 });
