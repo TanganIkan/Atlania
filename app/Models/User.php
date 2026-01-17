@@ -13,7 +13,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = ['name', 'email', 'password'];
-
     protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
@@ -29,9 +28,8 @@ class User extends Authenticatable
         return $this->hasMany(Article::class);
     }
 
-    /**
-     * Statistik user terdaftar (daily / weekly / monthly)
-     */
+    
+    // Statistik user terdaftar (daily / weekly / monthly)
     public function scopeGetStats($query, $period)
     {
         if ($period === 'weekly') {

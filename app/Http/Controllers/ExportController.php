@@ -11,9 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ExportController extends Controller
 {
-    /**
-     * Download PDF artikel
-     */
+    // Download PDF
     public function downloadPdf($id)
     {
         $article = Article::with('user', 'category')->findOrFail($id);
@@ -30,20 +28,14 @@ class ExportController extends Controller
         );
     }
 
-    /**
-     * Download Excel chart (users / articles / popular)
-     */
+    // Download Excel dari Chart
     public function downloadExcel($type)
     {
         $period = request('period', 'daily');
         $title  = 'Export Data';
         $data   = [];
 
-        /**
-         * =========================
-         * USERS
-         * =========================
-         */
+        // Chart User Terdaftar
         if ($type === 'users') {
 
             $title = 'User Terdaftar';
@@ -94,11 +86,7 @@ class ExportController extends Controller
             }
         }
 
-        /**
-         * =========================
-         * ARTICLES
-         * =========================
-         */
+        // Chart Artikel Terbuat
         elseif ($type === 'articles') {
 
             $title = 'Artikel Dibuat';
@@ -149,11 +137,7 @@ class ExportController extends Controller
             }
         }
 
-        /**
-         * =========================
-         * POPULAR ARTICLES
-         * =========================
-         */
+        // Chart Artikel Populer
         elseif ($type === 'popular') {
 
             $title = 'Artikel Populer';
@@ -197,11 +181,7 @@ class ExportController extends Controller
             abort(404);
         }
 
-        /**
-         * =========================
-         * GENERATE EXCEL
-         * =========================
-         */
+        // Generate Excel
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle($title);

@@ -15,11 +15,6 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        /**
-         * =========================
-         * Artikel Terpopuler (Weekly)
-         * =========================
-         */
         $popularWeekly = Article::getPopularByPeriod('weekly');
 
         $heroArticle = null;
@@ -33,10 +28,8 @@ class ArticleController extends Controller
                 ->get()
                 ->keyBy('id');
 
-            // Hero = ranking #1
             $heroArticle = $articlesById->get($popularWeekly->first()->id);
 
-            // Most Popular = ranking #2–#7
             $popularArticles = $popularWeekly
                 ->skip(1)
                 ->take(6)
@@ -44,11 +37,6 @@ class ArticleController extends Controller
                 ->filter();
         }
 
-        /**
-         * =========================
-         * Fallback jika belum ada views
-         * =========================
-         */
         if (!$heroArticle) {
             $fallback = Article::with('user', 'category')
                 ->withCount('views')
@@ -60,11 +48,6 @@ class ArticleController extends Controller
             $popularArticles = $fallback->skip(1);
         }
 
-        /**
-         * =========================
-         * Artikel lain (untuk section lain)
-         * =========================
-         */
         $articles = Article::with('user', 'category')
             ->latest()
             ->get();
@@ -74,6 +57,18 @@ class ArticleController extends Controller
             'popularArticles',
             'articles'
         ));
+    }
+
+    public function adminIndex() 
+    { 
+        $articles = Article::with('user', 'category')->latest()->get();
+        return view('admin.dashboard', compact('articles')); 
+    }
+
+    public function create() 
+    {
+         $categories = Category::all();
+         return view('articles.create', compact('categories')); 
     }
 
 

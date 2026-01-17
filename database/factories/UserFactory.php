@@ -13,10 +13,7 @@ class UserFactory extends Factory
 
     public function definition(): array
     {
-        // user dibuat antara 90 hari lalu
         $createdAt = $this->faker->dateTimeBetween('-90 days', '-3 days');
-
-        // user update bisa setelah dibuat (bahkan hari ini)
         $updatedAt = $this->faker->dateTimeBetween($createdAt, 'now');
 
         return [

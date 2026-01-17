@@ -16,7 +16,7 @@
         <canvas id="{{ $id }}Chart"></canvas>
     </div>
 
-    {{-- TOMBOL EXPORT (WAJIB ADA data-chart) --}}
+    {{-- TOMBOL EXPORT --}}
     <div class="flex justify-end mt-4">
         <a
             href="{{ route('admin.export.chart', ['type' => $id]) }}?period=daily"
