@@ -24,10 +24,6 @@ class Article extends Model
         'is_featured',
     ];
 
-    // =======================
-    // RELATIONSHIPS
-    // =======================
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -43,10 +39,6 @@ class Article extends Model
         return $this->hasMany(ArticleView::class);
     }
 
-    // =======================
-    // ACCESSOR
-    // =======================
-
     public function getImageAttribute($value)
     {
         if ($value && Storage::disk('public')->exists($value)) {
@@ -56,9 +48,7 @@ class Article extends Model
         return asset('images/default-thumbnail.jpg');
     }
 
-    /**
-     * Statistik artikel dibuat (daily / weekly / monthly)
-     */
+    // Statistik artikel dibuat (daily / weekly / monthly)
     public function scopeGetStats($query, $period)
     {
         if ($period === 'weekly') {
@@ -100,10 +90,8 @@ class Article extends Model
             ->groupBy('label')
             ->orderBy('label');
     }
-
-    /**
-     * Artikel populer berdasarkan periode
-     */
+    
+    // Artikel populer berdasarkan periode
     public static function getPopularByPeriod($period)
     {
         $query = self::select(

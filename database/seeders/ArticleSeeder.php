@@ -9,9 +9,6 @@ use Illuminate\Support\Str;
 
 class ArticleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         Article::create([
@@ -73,6 +70,7 @@ class ArticleSeeder extends Seeder
             'comments_count' => 25,
             'save_count' => 30,
         ]);
+
         // Artikel random dari factory
         Article::factory()->count(15)->create();
     }

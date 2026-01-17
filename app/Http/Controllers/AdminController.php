@@ -19,11 +19,6 @@ class AdminController extends Controller
         $totalUsers = User::count();
         $totalArticles = Article::count();
 
-        /**
-         * =========================
-         * Artikel Terpopuler (Weekly)
-         * =========================
-         */
         $popularWeekly = Article::getPopularByPeriod('weekly');
 
         $heroArticle = null;
@@ -46,11 +41,6 @@ class AdminController extends Controller
                 ->filter();
         }
 
-        /**
-         * =========================
-         * Fallback
-         * =========================
-         */
         if (!$heroArticle) {
             $fallback = Article::with('user', 'category')
                 ->withCount('views')
