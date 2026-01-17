@@ -15,24 +15,67 @@ class ArticleController extends Controller
 {
     public function index()
     {
+        /**
+         * =========================
+         * Artikel Terpopuler (Weekly)
+         * =========================
+         */
+        $popularWeekly = Article::getPopularByPeriod('weekly');
+
+        $heroArticle = null;
+        $popularArticles = collect();
+
+        if ($popularWeekly->isNotEmpty()) {
+            $ids = $popularWeekly->pluck('id');
+
+            $articlesById = Article::with('user', 'category')
+                ->whereIn('id', $ids)
+                ->get()
+                ->keyBy('id');
+
+            // Hero = ranking #1
+            $heroArticle = $articlesById->get($popularWeekly->first()->id);
+
+            // Most Popular = ranking #2–#7
+            $popularArticles = $popularWeekly
+                ->skip(1)
+                ->take(6)
+                ->map(fn ($item) => $articlesById->get($item->id))
+                ->filter();
+        }
+
+        /**
+         * =========================
+         * Fallback jika belum ada views
+         * =========================
+         */
+        if (!$heroArticle) {
+            $fallback = Article::with('user', 'category')
+                ->withCount('views')
+                ->orderByDesc('views_count')
+                ->take(7)
+                ->get();
+
+            $heroArticle = $fallback->first();
+            $popularArticles = $fallback->skip(1);
+        }
+
+        /**
+         * =========================
+         * Artikel lain (untuk section lain)
+         * =========================
+         */
         $articles = Article::with('user', 'category')
             ->latest()
             ->get();
-        return view('dashboard', compact('articles'));
+
+        return view('dashboard', compact(
+            'heroArticle',
+            'popularArticles',
+            'articles'
+        ));
     }
 
-    public function adminIndex()
-    {
-        $articles = Article::with('user', 'category')->latest()->get();
-        return view('admin.dashboard', compact('articles'));
-    }
-
-    public function create()
-    {
-
-        $categories = Category::all();
-        return view('articles.create', compact('categories'));
-    }
 
     public function store(Request $request)
     {
