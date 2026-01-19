@@ -30,27 +30,32 @@
         {{ Str::limit(strip_tags($article->content), 120) }}
     </p>
 
-    <div class="flex items-center justify-between pt-4 border-t border-gray-50">
-        <div class="flex items-center space-x-2">
+    <div class="flex items-center justify-between pt-5 border-t border-gray-100 mt-auto">
+        <div class="flex items-center gap-2">
+
             <a href="{{ route('articles.edit', $article->id) }}"
-                class="px-4 py-2 bg-gray-50 hover:bg-black hover:text-white text-gray-400 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+                class="group/edit flex items-center px-4 py-2.5 bg-[#1a1c2e] text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-black hover:shadow-lg active:scale-95">
+                <i class="far fa-edit mr-2 text-[12px] transition-transform group-hover/edit:scale-110"></i>
                 Edit
             </a>
 
             <form action="{{ route('articles.destroy', $article->id) }}" method="POST"
-                onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
+                onsubmit="return confirm('Yakin ingin menghapus artikel ini? Data tidak bisa dikembalikan.')"
+                class="inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit"
-                    class="px-4 py-2 bg-gray-50 hover:bg-red-50 hover:text-red-600 text-gray-400 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">
+                    class="group/del flex items-center px-4 py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-red-600 hover:text-white hover:shadow-lg active:scale-95">
+                    <i class="far fa-trash-alt mr-2 text-[12px] transition-transform group-hover/del:scale-110"></i>
                     Hapus
                 </button>
             </form>
         </div>
 
         <a href="{{ route('articles.show', $article->slug) }}"
-            class="w-10 h-10 bg-[#f15a24] text-white rounded-xl flex items-center justify-center transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-orange-100">
-            <svg class="w-5 h-5 transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            class="w-11 h-11 bg-[#f15a24] text-white rounded-2xl flex items-center justify-center transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-orange-100 active:scale-90"
+            title="View Article">
+            <svg class="w-5 h-5 transform -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3">
                 </path>
             </svg>

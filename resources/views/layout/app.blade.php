@@ -20,13 +20,14 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="bg-[#f8f7f3] border-b border-gray-100 sticky top-0 z-50 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-3 items-center h-16">
 
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="{{ route('dashboard') }}" class="text-[#f15a24] font-bold text-sm">Home</a>
+                    <a href="{{ route('dashboard') }}"
+                        class="{{ request()->routeIs('dashboard') ? 'text-orange-500' : 'text-slate-600' }} hover:text-orange-500 transition text-sm font-semibold">
+                        Home</a>
                     <div class="relative group">
                         <button
                             class="text-slate-600 hover:text-orange-500 transition flex items-center text-sm font-semibold">
@@ -39,18 +40,10 @@
                     </div>
                     <a href="#"
                         class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">Feature</a>
-                    <a href="#" class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">About</a>
-                
-                    {{-- MENU DASHBOARD ADMIN --}}
-                    @auth
-                        @if(auth()->user()->role === 'admin')
-                            <a href="{{ route('admin.dashboard') }}"
-                            class="relative text-orange-600 hover:text-orange-700 transition text-sm font-bold">
-                                Dashboard
-                                <span class="absolute left-0 -bottom-1 w-full h-[2px] bg-orange-500 scale-x-0 hover:scale-x-100 transition-transform origin-left"></span>
-                            </a>
-                        @endif
-                    @endauth
+                    <a href="{{ route('about') }}"
+                        class="{{ request()->routeIs('about') ? 'text-orange-500' : 'text-slate-600' }} hover:text-orange-500 transition text-sm font-semibold">
+                        About
+                    </a>
                 </div>
 
                 <div class="flex justify-center">
@@ -77,10 +70,20 @@
 
                     <div class="flex items-center border-l pl-5 border-gray-300 ml-2">
                         @auth
-                            <a href="{{ route('articles.create') }}"
-                                class="text-xs font-bold bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition">
-                                WRITE
-                            </a>
+                            {{-- Jika yang login adalah ADMIN --}}
+                            @if(auth()->user()->role === 'admin')
+                                <a href="{{ route('admin.dashboard') }}"
+                                    class="text-xs font-bold bg-[#1a1c2e] text-white px-4 py-2 rounded-full hover:bg-orange-600 transition flex items-center gap-2">
+                                    <i class="fas fa-th-large text-[10px]"></i>
+                                    DASHBOARD
+                                </a>
+                            @else
+                                {{-- Jika yang login adalah USER BIASA --}}
+                                <a href="{{ route('articles.create') }}"
+                                    class="text-xs font-bold bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition">
+                                    WRITE
+                                </a>
+                            @endif
 
                             <a href="{{ route('articles.my') }}"
                                 class="text-xs font-bold text-slate-600 hover:text-orange-500 transition uppercase tracking-wider ml-4">
@@ -107,12 +110,10 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main>
         @yield('content')
     </main>
 
-    <!-- Footer -->
     <footer class="bg-[#1a1c2e] text-white pt-24 pb-12 font-['Plus_Jakarta_Sans',sans-serif]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 

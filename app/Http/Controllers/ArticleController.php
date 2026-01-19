@@ -21,19 +21,18 @@ class ArticleController extends Controller
         $popularArticles = collect();
 
         if ($popularWeekly->isNotEmpty()) {
-            $ids = $popularWeekly->pluck('id');
+            $id = $popularWeekly->pluck('id');
 
             $articlesById = Article::with('user', 'category')
-                ->whereIn('id', $ids)
+                ->whereIn('id', $id)
                 ->get()
                 ->keyBy('id');
 
             $heroArticle = $articlesById->get($popularWeekly->first()->id);
 
             $popularArticles = $popularWeekly
-                ->skip(1)
                 ->take(6)
-                ->map(fn ($item) => $articlesById->get($item->id))
+                ->map(fn($item) => $articlesById->get($item->id))
                 ->filter();
         }
 
@@ -45,7 +44,7 @@ class ArticleController extends Controller
                 ->get();
 
             $heroArticle = $fallback->first();
-            $popularArticles = $fallback->skip(1);
+            $popularArticles = $fallback->take(6);
         }
 
         $articles = Article::with('user', 'category')
@@ -59,16 +58,16 @@ class ArticleController extends Controller
         ));
     }
 
-    public function adminIndex() 
-    { 
+    public function adminIndex()
+    {
         $articles = Article::with('user', 'category')->latest()->get();
-        return view('admin.dashboard', compact('articles')); 
+        return view('admin.dashboard', compact('articles'));
     }
 
-    public function create() 
+    public function create()
     {
-         $categories = Category::all();
-         return view('articles.create', compact('categories')); 
+        $categories = Category::all();
+        return view('articles.create', compact('categories'));
     }
 
 

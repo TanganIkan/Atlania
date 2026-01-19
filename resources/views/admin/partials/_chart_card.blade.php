@@ -16,16 +16,10 @@
         <canvas id="{{ $id }}Chart"></canvas>
     </div>
 
-    {{-- TOMBOL EXPORT --}}
     <div class="flex justify-end mt-4">
-        <a
-            href="{{ route('admin.export.chart', ['type' => $id]) }}?period=daily"
-            class="export-btn inline-flex items-center px-3 py-1.5 text-sm font-medium
-                   text-green-700 border border-green-300 rounded-lg
-                   hover:bg-green-50 transition"
-            data-chart="{{ $id }}"
-            data-period="daily"
-        >
+        <a href="{{ route('admin.export.chart', ['type' => $id]) }}?period=daily" class="export-btn inline-flex items-center px-3 py-1.5 text-sm font-medium
+                   text-orange-600 border border-orange-300 rounded-lg
+                   hover:bg-orange-50 transition" data-chart="{{ $id }}" data-period="daily">
             Export Excel
         </a>
     </div>

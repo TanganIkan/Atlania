@@ -13,37 +13,40 @@
                     </p>
                 </div>
                 <a href="{{ route('articles.create') }}" class="bg-[#f15a24] text-white px-8 py-4 rounded-2xl font-black
-                    text-xs shadow-2xl shadow-orange-200 hover:scale-105 active:scale-95 transition-all uppercase
-                    tracking-widest">
-                    + Buat Postingan Baru
+                                            text-xs shadow-2xl shadow-orange-200 hover:scale-105 active:scale-95 transition-all uppercase
+                                            tracking-widest"><i class="fas fa-plus mr-2"></i>Buat Postingan Baru
                 </a>
             </div>
 
             @if($articles->isEmpty())
-                            <div class="py-32 text-center bg-white rounded-[3rem] shadow-sm">
-                        <i class="fas fa-feather-alt text-5xl text-gray-200 mb-6"></i>
-                        <p class="text-gray-400 font-bold uppercase text-xs tracking-widest">Belum ada karya yang ditulis.</p>
+                <div class="py-32 text-center bg-white rounded-[3rem] shadow-sm">
+                    <i class="fas fa-feather-alt text-5xl text-gray-200 mb-6"></i>
+                    <p class="text-gray-400 font-bold uppercase text-xs tracking-widest">Belum ada karya yang ditulis.</p>
                 </div>
             @else
 
-        <div class="p-8 rounded-[4rem]">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                @foreach($articles as $article)
-                    @include('components.article-card', ['article' => $article])
-                @endforeach
-                </div> <div class="mt-20 flex justify-center">
-                {{ $articles->links() }}
-                </div> </div>
-    @endif
-            </main> </div>
-
-            @if (session('success'))
-                    <div class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-                {{ session('success') }}
-                </div> <script>
-                    setTimeout(() => {
-                        document.querySelector('.fixed').remove();
-                    }, 3000);
-                </script>
+                <div class="rounded-[4rem]">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                        @foreach($articles as $article)
+                            @include('components.article-card', ['article' => $article])
+                        @endforeach
+                    </div>
+                    <div class="mt-20 flex justify-center">
+                        {{ $articles->links() }}
+                    </div>
+                </div>
             @endif
+        </main>
+    </div>
+
+    @if (session('success'))
+        <div class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+            {{ session('success') }}
+        </div>
+        <script>
+            setTimeout(() => {
+                document.querySelector('.fixed').remove();
+            }, 3000);
+        </script>
+    @endif
 @endsection

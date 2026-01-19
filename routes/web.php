@@ -69,3 +69,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     // Perbaikan path: cukup 'admin-articles' karena sudah ada prefix 'admin'
     Route::get('/admin-articles', [ArticleController::class, 'adminArticles'])->name('admin.articles');
 });
+
+// ABOUT PAGE
+Route::view('/about', 'about')->name('about');

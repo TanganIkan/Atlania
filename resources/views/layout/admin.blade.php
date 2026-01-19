@@ -19,7 +19,6 @@
 
 <body class="bg-gray-50/60">
 
-    {{-- NAVBAR --}}
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-100">
         <div class="px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -43,36 +42,48 @@
         </div>
     </nav>
 
-    {{-- SIDEBAR --}}
     <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-100 sm:translate-x-0">
-        <div class="h-full px-4 pb-4 overflow-y-auto">
+        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-100 sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full px-4 pb-4 overflow-y-auto bg-white">
             <ul class="space-y-2 text-xs font-bold uppercase tracking-wider">
 
                 <li>
                     <a href="{{ route('admin.dashboard') }}"
-                        class="flex items-center p-3 rounded-2xl transition
-                        {{ request()->routeIs('admin.dashboard') ? 'bg-orange-50 text-[#f15a24]' : 'text-gray-500 hover:bg-orange-50 hover:text-[#f15a24]' }}">
-                        <i class="fas fa-th-large w-5 h-5"></i>
+                        class="flex items-center p-3 rounded-2xl transition group
+                    {{ request()->routeIs('admin.dashboard') ? 'bg-orange-50 text-[#f15a24]' : 'text-gray-500 hover:bg-orange-50 hover:text-[#f15a24]' }}">
+
+                        <span class="inline-flex items-center justify-center w-6 h-6">
+                            <i class="fas fa-th-large text-base"></i>
+                        </span>
+
                         <span class="ml-3">Dashboard</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="{{ route('admin.articles') }}"
-                        class="flex items-center p-3 rounded-2xl transition
-        {{ request()->routeIs('admin.articles*') ? 'bg-orange-50 text-[#f15a24]' : 'text-gray-500 hover:bg-orange-50 hover:text-[#f15a24]' }}">
-                        <i class="fas fa-newspaper w-5 h-5 flex items-center justify-center"></i>
+                        class="flex items-center p-3 rounded-2xl transition group
+                    {{ request()->routeIs('admin.articles*') ? 'bg-orange-50 text-[#f15a24]' : 'text-gray-500 hover:bg-orange-50 hover:text-[#f15a24]' }}">
+
+                        <span class="inline-flex items-center justify-center w-6 h-6">
+                            <i class="fas fa-newspaper text-base"></i>
+                        </span>
+
                         <span class="ml-3">Artikel</span>
                     </a>
                 </li>
 
-                <li>
+                <li class="pt-4 border-t border-gray-50 mt-4">
                     <form method="POST" action="{{ route('auth.logout') }}">
                         @csrf
                         <button type="submit"
-                            class="flex w-full items-center p-3 text-gray-500 rounded-2xl hover:bg-red-50 hover:text-red-600 transition">
-                            <i class="fas fa-sign-out-alt w-5 h-5"></i>
+                            class="flex w-full items-center p-3 text-gray-400 rounded-2xl hover:bg-red-50 hover:text-red-600 transition group">
+
+                            <span class="inline-flex items-center justify-center w-6 h-6">
+                                <i class="fas fa-sign-out-alt text-base"></i>
+                            </span>
+
                             <span class="ml-3">Logout</span>
                         </button>
                     </form>

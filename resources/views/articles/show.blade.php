@@ -59,13 +59,11 @@
                                     {{ $article->save_count }}</span>
                             </div>
                             <div class="flex space-x-2">
-                                <!-- Bookmark -->
                                 <button
                                     class="w-10 h-10 bg-white shadow-xl rounded-xl flex items-center justify-center text-[#f15a24]">
                                     <i class="far fa-bookmark"></i>
                                 </button>
 
-                                <!-- Download PDF -->
                                 <a href="{{ route('articles.download.pdf', $article->id) }}" title="Download PDF"
                                     class="w-10 h-10 bg-white shadow-xl rounded-xl flex items-center justify-center text-red-500 hover:bg-red-50 transition">
                                     <i class="far fa-file-pdf"></i>

@@ -1,17 +1,16 @@
 import "./bootstrap";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-import "./bootstrap";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "flowbite";
 
 window.Quill = Quill;
 
-// slider
+// slider weekly
 const initWeeklySlider = () => {
-    const element = document.querySelector(".weeklySwiper");
-    if (element) {
+    const weeklyElem = document.querySelector(".weeklySwiper");
+    if (weeklyElem) {
         new Swiper(".weeklySwiper", {
             slidesPerView: 1,
             spaceBetween: 24,
@@ -27,5 +26,40 @@ const initWeeklySlider = () => {
     }
 };
 
-// Jalankan saat dokumen siap
-document.addEventListener("DOMContentLoaded", initWeeklySlider);
+// slider hero
+const initHeroSlider = () => {
+    const heroElem = document.querySelector(".heroSwiper");
+    if (heroElem) {
+        new Swiper(".heroSwiper", {
+            loop: true,
+            speed: 500,
+            spaceBetween: 100,
+            grabCursor: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".hero-pagination-bullet",
+                type: "fraction",
+                renderFraction: function (currentClass, totalClass) {
+                    return (
+                        '<span class="' +
+                        currentClass +
+                        ' text-3xl font-black text-[#1a1c2e]"></span>' +
+                        '<span class="text-xl font-bold text-gray-300 ml-2">/ ' +
+                        '<span class="' +
+                        totalClass +
+                        '"></span></span>'
+                    );
+                },
+            },
+        });
+    }
+};
+
+// execute
+document.addEventListener("DOMContentLoaded", () => {
+    initWeeklySlider();
+    initHeroSlider();
+});

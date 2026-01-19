@@ -2,76 +2,76 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        {{-- Hero Section --}}
         <div class="mb-16">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="swiper heroSwiper overflow-visible">
+                <div class="swiper-wrapper">
+                    @foreach ($popularArticles as $article)
+                        <div class="swiper-slide">
 
-                <div class="flex flex-col">
-                    <div class="relative w-fit mb-10">
-                        <h2 class="text-6xl font-extrabold text-[#1a1c2e] relative z-10">
-                            Tech<span class="text-[#1a1c2e]">.</span>
-                        </h2>
-                        <span class="absolute left-0 bottom-1 w-full h-[10px] bg-purple-500"></span>
-                    </div>
+                            <div class="grid md:grid-cols-2 gap-12 items-center">
+                                <div class="flex flex-col">
+                                    <div class="relative w-fit mb-10">
+                                        <h2 class="text-6xl font-extrabold text-[#1a1c2e] relative z-10">
+                                            {{ $article->category->name ?? 'Belum ada artikel' }}<span
+                                                class="text-[#1a1c2e]">.</span>
+                                        </h2>
+                                        <div class="absolute left-0 bottom-1 w-full h-[10px] bg-purple-500"></div>
+                                    </div>
 
-                    {{-- Author & time --}}
-                    <div class="flex items-center space-x-3 text-sm text-gray-400 mb-6 font-medium">
-                        <span>{{ $heroArticle?->user?->name ?? 'Unknown Author' }}</span>
-                        <span class="text-gray-300">—</span>
-                        <span>{{ optional($heroArticle?->created_at)->diffForHumans() ?? '-' }}</span>
-                    </div>
+                                    <div class="flex items-center space-x-3 text-sm text-gray-400 mb-6 font-medium">
+                                        <span>{{ $article->user->name ?? 'Unknown Author' }}</span>
+                                        <span class="text-gray-300">—</span>
+                                        <span>{{ $article->created_at->diffForHumans() }}</span>
+                                    </div>
 
-                    {{-- Title --}}
-                    <h1 class="text-5xl font-bold text-[#1a1c2e] mb-6 leading-[1.15] tracking-tight">
-                        {{ $heroArticle?->title ?? 'Belum ada artikel populer' }}
-                    </h1>
+                                    <h1 class="text-5xl font-bold text-[#1a1c2e] mb-6 leading-[1.15] tracking-tight">
+                                        {{ $article->title }}
+                                    </h1>
 
-                    {{-- Content --}}
-                    <div class="flex items-start space-x-5">
-                        <p class="text-gray-400 text-sm leading-relaxed max-w-ld">
-                            {{ Str::limit(strip_tags($heroArticle?->content ?? ''), 160) }}
-                        </p>
+                                    <div class="flex items-start space-x-5">
+                                        <p class="text-gray-400 text-sm leading-relaxed max-w-ld">
+                                            {{ Str::limit(strip_tags($article->content), 160) }}
+                                        </p>
 
-                        {{-- Read more --}}
-                        @if ($heroArticle)
-                            <a href="{{ route('articles.show', $heroArticle->slug) }}"
-                            class="flex-shrink-0 w-14 h-14 bg-[#f15a24] text-white rounded-xl flex items-center justify-center
-                                    hover:bg-[#d44d1d] hover:translate-x-1 hover:-translate-y-1
-                                    transition-all duration-300 shadow-lg shadow-orange-200">
-                                <svg class="w-6 h-6 transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                        d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                </svg>
-                            </a>
-                        @endif
-                    </div>
-                </div>
+                                        <a href="{{ route('articles.show', $article->slug) }}"
+                                            class="flex-shrink-0 w-14 h-14 bg-[#f15a24] text-white rounded-xl flex items-center justify-center hover:bg-[#d44d1d] hover:translate-x-1 hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-orange-200">
+                                            <svg class="w-6 h-6 transform rotate-45" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
 
-
-                @if ($articles->isNotEmpty())
-                    <div class="relative">
-                        <div
-                            class="rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/3] bg-gray-100 flex items-center justify-center">
-                            @if ($articles->first()->image)
-                                <img src="{{ $articles->first()->image }}" class="w-full h-full object-cover">
-                            @else
-                                <span class="text-gray-400 font-bold">No Image</span>
-                            @endif
+                                <div class="relative">
+                                    <div
+                                        class="rounded-[2.5rem] shadow-sm overflow-hidden aspect-[4/3] bg-gray-100 flex items-center justify-center">
+                                        @if ($article->image)
+                                            <img src="{{ asset('storage/' . $article->image) }}" class="w-full h-full object-cover">
+                                        @else
+                                            <span class="text-gray-400 font-bold">No Image</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                @endif
-            </div>
-
-            <div class="mt-16 flex items-center justify-center space-x-8">
-                <div class="h-[1px] bg-gray-200 flex-1"></div>
-                <div class="flex items-baseline space-x-1">
-                    <span class="text-3xl font-black text-[#1a1c2e]">2</span>
-                    <span class="text-xl font-bold text-gray-300">/ 6</span>
+                    @endforeach
                 </div>
-                <div class="h-[1px] bg-gray-200 flex-1"></div>
+
+                <div class="mt-16 flex items-center justify-center space-x-8">
+                    <div class="h-[1px] bg-gray-200 flex-1"></div>
+                    {{-- Swiper Pagination --}}
+                    <div class="hero-pagination-bullet !static !w-auto flex items-baseline space-x-1">
+                    </div>
+                    <div class="h-[1px] bg-gray-200 flex-1"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Most Popular Articles Section -->
+        {{-- Most Popular Articles Section --}}
         <div class="mb-16">
 
             <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6    ">
                 @foreach ($popularArticles as $article)
                     <div
                         class="group cursor-pointer p-5 transition-all duration-300 rounded-[2.5rem] hover:bg-white hover:shadow-gray-100">
@@ -324,14 +324,14 @@
                                             </span>
                                         </div>
 
-                                        <div
+                                        <a href="{{ route('articles.show', $article->slug) }}"
                                             class="w-10 h-10 bg-[#f15a24] text-white rounded-xl flex items-center justify-center transform transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 shadow-lg shadow-orange-200">
                                             <svg class="w-5 h-5 transform rotate-45" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                                     d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                                             </svg>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -353,4 +353,5 @@
             }, 3000);
         </script>
     @endif
+
 @endsection

@@ -32,8 +32,8 @@ class ExportController extends Controller
     public function downloadExcel($type)
     {
         $period = request('period', 'daily');
-        $title  = 'Export Data';
-        $data   = [];
+        $title = 'Export Data';
+        $data = [];
 
         // Chart User Terdaftar
         if ($type === 'users') {
@@ -46,8 +46,8 @@ class ExportController extends Controller
                     DATE(created_at) as label,
                     COUNT(*) as total
                 ')
-                ->groupBy('label')
-                ->orderBy('label');
+                    ->groupBy('label')
+                    ->orderBy('label');
             }
 
             if ($period === 'weekly') {
@@ -57,7 +57,7 @@ class ExportController extends Controller
                             DATE_SUB(created_at, INTERVAL WEEKDAY(created_at) DAY),
                             "%d"
                         ),
-                        "–",
+                        "-",
                         DATE_FORMAT(
                             DATE_ADD(created_at, INTERVAL (6 - WEEKDAY(created_at)) DAY),
                             "%d %b %Y"
@@ -65,8 +65,8 @@ class ExportController extends Controller
                     ) as label,
                     COUNT(*) as total
                 ')
-                ->groupBy('label')
-                ->orderByRaw('MIN(created_at)');
+                    ->groupBy('label')
+                    ->orderByRaw('MIN(created_at)');
             }
 
             if ($period === 'monthly') {
@@ -74,8 +74,8 @@ class ExportController extends Controller
                     DATE_FORMAT(created_at, "%b %Y") as label,
                     COUNT(*) as total
                 ')
-                ->groupBy('label')
-                ->orderByRaw('MIN(created_at)');
+                    ->groupBy('label')
+                    ->orderByRaw('MIN(created_at)');
             }
 
             $rows = $query->get();
@@ -97,8 +97,8 @@ class ExportController extends Controller
                     DATE(created_at) as label,
                     COUNT(*) as total
                 ')
-                ->groupBy('label')
-                ->orderBy('label');
+                    ->groupBy('label')
+                    ->orderBy('label');
             }
 
             if ($period === 'weekly') {
@@ -108,7 +108,7 @@ class ExportController extends Controller
                             DATE_SUB(created_at, INTERVAL WEEKDAY(created_at) DAY),
                             "%d"
                         ),
-                        "–",
+                        "-",
                         DATE_FORMAT(
                             DATE_ADD(created_at, INTERVAL (6 - WEEKDAY(created_at)) DAY),
                             "%d %b %Y"
@@ -116,8 +116,8 @@ class ExportController extends Controller
                     ) as label,
                     COUNT(*) as total
                 ')
-                ->groupBy('label')
-                ->orderByRaw('MIN(created_at)');
+                    ->groupBy('label')
+                    ->orderByRaw('MIN(created_at)');
             }
 
             if ($period === 'monthly') {
@@ -125,8 +125,8 @@ class ExportController extends Controller
                     DATE_FORMAT(created_at, "%b %Y") as label,
                     COUNT(*) as total
                 ')
-                ->groupBy('label')
-                ->orderByRaw('MIN(created_at)');
+                    ->groupBy('label')
+                    ->orderByRaw('MIN(created_at)');
             }
 
             $rows = $query->get();
@@ -162,7 +162,7 @@ class ExportController extends Controller
 
             if ($period === 'monthly') {
                 $query->whereMonth('article_views.view_date', now()->month)
-                      ->whereYear('article_views.view_date', now()->year);
+                    ->whereYear('article_views.view_date', now()->year);
             }
 
             $rows = $query
@@ -175,9 +175,7 @@ class ExportController extends Controller
             foreach ($rows as $row) {
                 $data[] = [$row->title, $row->total_views];
             }
-        }
-
-        else {
+        } else {
             abort(404);
         }
 

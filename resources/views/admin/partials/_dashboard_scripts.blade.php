@@ -61,7 +61,7 @@
         );
 
         btn.addEventListener('click', () => {
-            const chart  = btn.dataset.chart;
+            const chart = btn.dataset.chart;
             const period = btn.dataset.period;
 
             // === STYLE ACTIVE BUTTON ===

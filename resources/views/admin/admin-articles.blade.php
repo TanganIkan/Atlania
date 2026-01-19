@@ -12,7 +12,6 @@
         </a>
     </div>
 
-    {{-- TABEL CRUD --}}
     <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-50">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-separate border-spacing-y-3">
@@ -27,7 +26,6 @@
                 <tbody>
                     @forelse ($articles as $article)
                         <tr class="group">
-                            {{-- Judul & Preview --}}
                             <td
                                 class="px-6 py-4 bg-gray-50/30 rounded-l-[1.5rem] border-y border-l border-transparent group-hover:border-gray-100 transition-all">
                                 <div class="flex items-center gap-4">
@@ -53,7 +51,6 @@
                                 </div>
                             </td>
 
-                            {{-- Kolom Penulis (Logika Baru: Tampil Semua Artikel) --}}
                             <td class="px-6 py-4 bg-gray-50/30 border-y border-transparent group-hover:border-gray-100">
                                 <div class="flex items-center gap-2">
                                     <img src="https://ui-avatars.com/api/?name={{ urlencode($article->user->name) }}&background=random"
@@ -62,25 +59,24 @@
                                 </div>
                             </td>
 
-                            {{-- Kategori --}}
                             <td class="px-6 py-4 bg-gray-50/30 border-y border-transparent group-hover:border-gray-100">
-                                <span
-                                    class="text-[10px] font-black uppercase tracking-widest text-gray-400 bg-white px-3 py-1.5 rounded-xl border border-gray-100">
-                                    — {{ $article->category->name ?? 'Uncategorized' }}
-                                </span>
+                                <div class="flex items-center">
+                                    <span
+                                        class="w-full inline-flex items-center justify-center whitespace-nowrap text-[9px] sm:text-[10px] font-black uppercase tracking-tighter sm:tracking-widest text-gray-400 bg-white px-2.5 py-1 rounded-lg border border-gray-100 shadow-sm">
+                                        {{ $article->category->name ?? 'Uncategorized' }}
+                                    </span>
+                                </div>
                             </td>
 
-                            {{-- Tombol Aksi --}}
                             <td
                                 class="px-6 py-4 bg-gray-50/30 rounded-r-[1.5rem] border-y border-r border-transparent group-hover:border-gray-100 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    {{-- Edit --}}
+
                                     <a href="{{ route('articles.edit', $article->id) }}"
                                         class="w-10 h-10 flex items-center justify-center bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-orange-600 hover:border-orange-100 transition-all shadow-sm">
                                         <i class="fas fa-edit text-xs"></i>
                                     </a>
 
-                                    {{-- Delete --}}
                                     <form action="{{ route('articles.destroy', $article->id) }}" method="POST"
                                         onsubmit="return confirm('Apakah Admin yakin ingin menghapus artikel ini?')">
                                         @csrf @method('DELETE')
@@ -90,7 +86,6 @@
                                         </button>
                                     </form>
 
-                                    {{-- View --}}
                                     <a href="{{ route('articles.show', $article->slug) }}" target="_blank"
                                         class="w-10 h-10 flex items-center justify-center bg-[#1a1c2e] rounded-xl text-white hover:bg-[#f15a24] transition-all shadow-lg shadow-gray-200">
                                         <i class="fas fa-eye text-xs"></i>
