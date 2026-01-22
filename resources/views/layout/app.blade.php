@@ -162,7 +162,6 @@
                 <div
                     class="flex flex-wrap justify-center gap-x-10 gap-y-4 mb-8 md:mb-0 text-sm font-semibold tracking-wide text-gray-300">
                     <a href="#" class="hover:text-purple-400 transition">About</a>
-                    <a href="#" class="hover:text-purple-400 transition">Features</a>
                     <a href="#" class="hover:text-purple-400 transition">Categories</a>
                     <a href="#" class="hover:text-purple-400 transition">Support</a>
                 </div>
