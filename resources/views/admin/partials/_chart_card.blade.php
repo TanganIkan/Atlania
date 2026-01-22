@@ -6,9 +6,9 @@
         </div>
 
         <div class="flex gap-1">
-            <button data-chart="{{ $id }}" data-period="daily" class="chart-btn">Harian</button>
-            <button data-chart="{{ $id }}" data-period="weekly" class="chart-btn">Mingguan</button>
-            <button data-chart="{{ $id }}" data-period="monthly" class="chart-btn">Bulanan</button>
+            <button data-chart="{{ $id }}" data-period="daily" class="chart-btn">Daily</button>
+            <button data-chart="{{ $id }}" data-period="weekly" class="chart-btn">Weekly</button>
+            <button data-chart="{{ $id }}" data-period="monthly" class="chart-btn">Monthly</button>
         </div>
     </div>
 

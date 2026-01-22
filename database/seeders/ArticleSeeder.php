@@ -72,6 +72,6 @@ class ArticleSeeder extends Seeder
         // ]);
 
         // Artikel random dari factory
-        Article::factory()->count(50)->create();
+        // Article::factory()->count(50)->create();
     }
 }

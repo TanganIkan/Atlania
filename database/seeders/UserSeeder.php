@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('tuadi123'),
             'role' => 'user',
         ]);
-        // 🔥 User random dari factory
+
         User::factory()->count(15)->create();
     }
 }

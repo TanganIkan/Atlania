@@ -47,7 +47,7 @@
                 <button type="submit"
                     class="group/del flex items-center px-4 py-2.5 bg-red-50 text-red-600 border border-red-100 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-red-600 hover:text-white hover:shadow-lg active:scale-95">
                     <i class="far fa-trash-alt mr-2 text-[12px] transition-transform group-hover/del:scale-110"></i>
-                    Hapus
+                    Delete
                 </button>
             </form>
         </div>

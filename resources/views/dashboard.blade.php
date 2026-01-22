@@ -50,7 +50,7 @@
                                     <div
                                         class="rounded-[2.5rem] shadow-sm overflow-hidden aspect-[4/3] bg-gray-100 flex items-center justify-center">
                                         @if ($article->image)
-                                            <img src="{{ asset('storage/' . $article->image) }}" class="w-full h-full object-cover">
+                                            <img src="{{$article->image}}" class="w-full h-full object-cover">
                                         @else
                                             <span class="text-gray-400 font-bold">No Image</span>
                                         @endif

@@ -4,23 +4,23 @@
 
     <div class="mb-10">
         <h2 class="text-3xl font-extrabold text-[#1a1c2e] tracking-tight">Dashboard</h2>
-        <p class="text-sm text-gray-400 mt-1">Ringkasan performa website hari ini</p>
+        <p class="text-sm text-gray-400 mt-1">Today's website performance summary</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
 
         <div class="bg-white rounded-[32px] p-6 shadow-sm border border-gray-50">
-            <p class="text-xs uppercase tracking-widest text-gray-400">Total User</p>
+            <p class="text-xs uppercase tracking-widest text-gray-400">Total Users</p>
             <h3 class="text-3xl font-bold text-[#1a1c2e] mt-2">{{ $totalUsers }}</h3>
         </div>
 
         <div class="bg-white rounded-[32px] p-6 shadow-sm border border-gray-50">
-            <p class="text-xs uppercase tracking-widest text-gray-400">Total Artikel</p>
+            <p class="text-xs uppercase tracking-widest text-gray-400">Total Articles</p>
             <h3 class="text-3xl font-bold text-[#1a1c2e] mt-2">{{ $totalArticles }}</h3>
         </div>
 
         <div class="bg-white rounded-[32px] p-6 shadow-sm border border-gray-50">
-            <p class="text-xs uppercase tracking-widest text-gray-400">Terpopuler Hari Ini</p>
+            <p class="text-xs uppercase tracking-widest text-gray-400">Popular Article</p>
             <h3 class="text-base font-semibold text-[#1a1c2e] mt-2 leading-snug">
                 {{ $heroArticle->title ?? 'Belum ada data' }}
             </h3>
@@ -28,11 +28,11 @@
     </div>
 
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        @include('admin.partials._chart_card', ['id' => 'users', 'title' => 'User Terdaftar'])
-        @include('admin.partials._chart_card', ['id' => 'articles', 'title' => 'Artikel Dibuat'])
+        @include('admin.partials._chart_card', ['id' => 'users', 'title' => 'User Registrations'])
+        @include('admin.partials._chart_card', ['id' => 'articles', 'title' => 'Articles Created'])
 
         <div class="xl:col-span-2">
-            @include('admin.partials._chart_card', ['id' => 'popular', 'title' => 'Artikel Populer'])
+            @include('admin.partials._chart_card', ['id' => 'popular', 'title' => 'Popular Articles'])
         </div>
     </div>
 

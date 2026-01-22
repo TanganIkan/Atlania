@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProfileController;
 
 // ===== AUTH =====
 Route::middleware('guest')->group(function () {
@@ -24,14 +25,14 @@ Route::post('/logout', function () {
     return redirect('/');
 })->middleware('auth')->name('auth.logout');
 
-// ===== PUBLIC DASHBOARD =====
+// PUBLIC DASHBOARD
 Route::get('/', [ArticleController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [ArticleController::class, 'adminIndex'])->name('admin.dashboard');
 });
 
-// ===== PROTECTED CRUD =====
+// PROTECTED CRUD 
 Route::middleware('auth')->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
@@ -42,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
 
-// ===== PUBLIC ARTICLE VIEW =====
+// PUBLIC ARTICLE VIEW
 Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 Route::middleware('auth')->group(function () {
     Route::get('/my-articles', [ArticleController::class, 'myArticles'])->name('articles.my');
@@ -55,20 +56,22 @@ Route::get('/articles/{id}/download-pdf', [ExportController::class, 'downloadPdf
 Route::get('/admin/export/chart/{type}', [ExportController::class, 'downloadExcel'])->name('admin.export.chart');
 
 // ADMIN
-// 1. Gabungkan semua rute Admin ke dalam satu grup PREFIX dan MIDDLEWARE yang ketat
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
-    // Pastikan ini memanggil AdminController, bukan ArticleController
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
-    // Grouping Chart
     Route::get('/chart/users', [AdminController::class, 'chartUsers'])->name('admin.chart.users');
     Route::get('/chart/articles', [AdminController::class, 'chartArticles'])->name('admin.chart.articles');
     Route::get('/chart/popular-articles', [AdminController::class, 'chartPopularArticles'])->name('admin.chart.popular');
 
-    // Perbaikan path: cukup 'admin-articles' karena sudah ada prefix 'admin'
     Route::get('/admin-articles', [ArticleController::class, 'adminArticles'])->name('admin.articles');
 });
 
 // ABOUT PAGE
 Route::view('/about', 'about')->name('about');
+
+// PROFILE PAGE
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+});

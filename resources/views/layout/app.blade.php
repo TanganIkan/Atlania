@@ -52,61 +52,65 @@
                     </a>
                 </div>
 
-                <div class="flex items-center justify-end space-x-5">
-                    <div class="flex items-center space-x-3">
-                        <a href="#"
-                            class="w-8 h-8 flex items-center justify-center bg-[#1a1c2e] text-white rounded-full hover:bg-orange-600 transition">
-                            <i class="fab fa-facebook-f text-xs"></i>
-                        </a>
-                        <a href="#"
-                            class="w-8 h-8 flex items-center justify-center bg-[#1a1c2e] text-white rounded-full hover:bg-orange-600 transition">
-                            <i class="fab fa-twitter text-xs"></i>
-                        </a>
-                        <a href="#"
-                            class="w-8 h-8 flex items-center justify-center bg-[#1a1c2e] text-white rounded-full hover:bg-orange-600 transition">
-                            <i class="fab fa-medium-m text-xs"></i>
-                        </a>
-                    </div>
+                <div class="flex items-center pl-6 ml-4">
+                    @auth
+                        <div class="flex items-center gap-6">
 
-                    <div class="flex items-center border-l pl-5 border-gray-300 ml-2">
-                        @auth
-                            {{-- Jika yang login adalah ADMIN --}}
-                            @if(auth()->user()->role === 'admin')
-                                <a href="{{ route('admin.dashboard') }}"
-                                    class="text-xs font-bold bg-[#1a1c2e] text-white px-4 py-2 rounded-full hover:bg-orange-600 transition flex items-center gap-2">
-                                    <i class="fas fa-th-large text-[10px]"></i>
-                                    DASHBOARD
-                                </a>
-                            @else
-                                {{-- Jika yang login adalah USER BIASA --}}
-                                <a href="{{ route('articles.create') }}"
-                                    class="text-xs font-bold bg-orange-600 text-white px-4 py-2 rounded-full hover:bg-orange-700 transition">
-                                    WRITE
-                                </a>
-                            @endif
+                            <div class="flex-shrink-0">
+                                @if(auth()->user()->role === 'admin')
+                                    <a href="{{ route('admin.dashboard') }}"
+                                        class="text-[10px] font-black bg-[#1a1c2e] text-white px-5 py-2.5 rounded-full hover:bg-orange-600 transition flex items-center gap-2 tracking-widest uppercase">
+                                        <i class="fas fa-th-large text-[10px]"></i>
+                                        DASHBOARD
+                                    </a>
+                                @else
+                                    <a href="{{ route('articles.create') }}"
+                                        class="text-[10px] font-black bg-orange-600 text-white px-5 py-2.5 rounded-full hover:bg-orange-700 transition tracking-widest uppercase">
+                                        WRITE
+                                    </a>
+                                @endif
+                            </div>
 
                             <a href="{{ route('articles.my') }}"
-                                class="text-xs font-bold text-slate-600 hover:text-orange-500 transition uppercase tracking-wider ml-4">
-                                See My Article
+                                class="hidden xl:block text-[10px] font-bold text-slate-400 hover:text-orange-500 transition uppercase tracking-widest">
+                                See My Articles
                             </a>
 
-                            <form method="POST" action="{{ route('auth.logout') }}"
-                                class="inline ml-4 border-l pl-4 border-gray-200">
-                                @csrf
-                                <button type="submit" class="text-xs font-bold text-gray-400 hover:text-red-600 transition">
-                                    LOGOUT
-                                </button>
-                            </form>
-                        @else
-                            <a href="{{ route('auth.login') }}"
-                                class="text-xs font-bold text-slate-600 hover:text-orange-500 transition uppercase tracking-wider">
-                                Login
+                            {{-- Profile Section --}}
+                            <a href="{{ route('profile.index') }}"
+                                class="flex items-center gap-3 group border-l pl-6 border-gray-200">
+                                <div class="text-right hidden lg:block">
+                                    <div
+                                        class="text-[10px] font-black text-[#1a1c2e] uppercase tracking-tighter leading-none group-hover:text-orange-500 transition">
+                                        {{ auth()->user()->name }}
+                                    </div>
+                                    <div class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+                                        Settings
+                                    </div>
+                                </div>
+
+                                <div class="relative flex-shrink-0">
+                                    <img class="w-10 h-10 rounded-xl border-2 border-transparent group-hover:border-orange-500 transition-all p-0.5 object-cover"
+                                        src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=1a1c2e&color=fff"
+                                        alt="Profile">
+                                    {{-- Status Indicator --}}
+                                    <div
+                                        class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 border-2 border-[#f8f7f3] rounded-full shadow-sm">
+                                    </div>
+                                </div>
                             </a>
-                        @endauth
-                    </div>
+                        </div>
+                    @else
+                        {{-- Jika Belum Login --}}
+                        <a href="{{ route('auth.login') }}"
+                            class="text-[10px] font-black text-[#1a1c2e] hover:text-orange-500 transition uppercase tracking-widest">
+                            Login
+                        </a>
+                    @endauth
                 </div>
-
             </div>
+
+        </div>
         </div>
     </nav>
 
