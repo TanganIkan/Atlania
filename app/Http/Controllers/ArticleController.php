@@ -108,21 +108,22 @@ class ArticleController extends Controller
             abort(403);
         }
 
-        $article->update([
-            'title' => request('title'),
-            'slug' => Str::slug(request('title')),
-            'content' => request('content'),
-            'category_id' => request('category_id'),
-        ]);
+        $data = [
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->input('title')),
+            'content' => $request->input('content'),
+            'category_id' => $request->input('category_id'),
+        ];
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('articles', 'public');
-            $article->update(['image' => $path]);
+            $oldImage = $article->image;
 
-            if ($article->image && Storage::disk('public')->exists($article->image)) {
-                Storage::disk('public')->delete($article->image);
-            }
+            $path = $request->file('image')->store('articles', 'public');
             $data['image'] = $path;
+
+            if ($oldImage && Storage::disk('public')->exists($oldImage)) {
+                Storage::disk('public')->delete($oldImage);
+            }
         }
 
         $article->update($data);
