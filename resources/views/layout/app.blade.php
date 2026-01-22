@@ -20,11 +20,15 @@
 </head>
 
 <body>
+    <div id="sidebar-overlay"
+        class="fixed inset-0 bg-[#1a1c2e]/40 backdrop-blur-sm z-[60] hidden transition-opacity duration-300 opacity-0">
+    </div>
+
     <nav class="bg-[#f8f7f3] border-b border-gray-100 sticky top-0 z-50 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 md:grid md:grid-cols-3">
 
-                {{-- 1. Left Side: Nav Links --}}
+                {{-- 1. Left Side: Nav Links (Desktop) --}}
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="{{ route('dashboard') }}"
                         class="{{ request()->routeIs('dashboard') ? 'text-orange-500' : 'text-slate-600' }} hover:text-orange-500 transition text-sm font-semibold">
@@ -105,48 +109,65 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </nav>
 
-            {{-- Mobile Menu --}}
-            <div id="mobile-menu" class="hidden md:hidden pt-4 pb-8 space-y-6 border-t border-gray-100 mt-4">
-                <div class="flex flex-col space-y-4">
-                    <a href="{{ route('dashboard') }}" class="text-lg font-bold text-[#1a1c2e]">Home</a>
-                    <a href="{{ route('about') }}" class="text-lg font-bold text-[#1a1c2e]">About</a>
-                    <button class="text-lg font-bold text-[#1a1c2e] text-left italic">Categories</button>
-                </div>
-                <div class="pt-6 border-t border-gray-100">
-                    @auth
-                        <div class="flex items-center gap-4 mb-6">
-                            <img class="w-12 h-12 rounded-xl"
-                                src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=1a1c2e&color=fff">
-                            <div>
-                                <p class="font-black text-[#1a1c2e] uppercase text-sm leading-none">
-                                    {{ auth()->user()->name }}
-                                </p>
-                                <a href="{{ route('profile.index') }}"
-                                    class="text-xs text-orange-500 font-bold mt-1 inline-block">Manage Account</a>
-                            </div>
+    {{-- SIDEBAR MENU (MOBILE) --}}
+    <aside id="sidebar-menu"
+        class="fixed top-0 right-0 h-full w-[80%] max-w-[350px] bg-[#f8f7f3] z-[70] shadow-2xl transform translate-x-full transition-transform duration-500 ease-in-out overflow-y-auto">
+        <div class="p-8 flex flex-col h-full">
+            <div class="flex items-center justify-between mb-12">
+                <span class="text-2xl font-black italic">Atlania<span class="text-orange-500">.</span></span>
+                <button id="close-sidebar" class="text-[#1a1c2e] p-2 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-col space-y-6">
+                <a href="{{ route('dashboard') }}"
+                    class="text-2xl font-black text-[#1a1c2e] uppercase italic tracking-tighter border-b border-gray-100 pb-2">Home</a>
+                <a href="{{ route('about') }}"
+                    class="text-2xl font-black text-[#1a1c2e] uppercase italic tracking-tighter border-b border-gray-100 pb-2">About</a>
+                <button
+                    class="text-2xl font-black text-[#1a1c2e] uppercase italic tracking-tighter text-left border-b border-gray-100 pb-2 flex justify-between items-center">
+                    Categories <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+            </div>
+
+            <div class="mt-auto pt-8">
+                @auth
+                    <div class="flex items-center gap-4 mb-8">
+                        <img class="w-14 h-14 rounded-xl object-cover"
+                            src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=1a1c2e&color=fff">
+                        <div>
+                            <p class="font-black text-[#1a1c2e] uppercase text-sm leading-none">{{ auth()->user()->name }}
+                            </p>
+                            <a href="{{ route('profile.index') }}"
+                                class="text-xs text-orange-500 font-bold mt-1 inline-block">Manage Account</a>
                         </div>
+                    </div>
+                    <div class="space-y-3">
                         <a href="{{ route('articles.my') }}"
-                            class="block text-sm font-bold text-slate-600 mb-4 uppercase tracking-widest italic">See My
-                            Articles</a>
+                            class="block text-center py-4 bg-white border border-gray-100 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-600 italic">See
+                            My Articles</a>
                         @if(auth()->user()->role === 'admin')
                             <a href="{{ route('admin.dashboard') }}"
-                                class="block w-full text-center bg-[#1a1c2e] text-white py-4 rounded-xl font-bold text-xs tracking-widest uppercase italic">Go
+                                class="block w-full text-center bg-[#1a1c2e] text-white py-4 rounded-xl font-black text-xs tracking-widest uppercase italic">Go
                                 To Dashboard</a>
                         @else
                             <a href="{{ route('articles.create') }}"
-                                class="block w-full text-center bg-orange-600 text-white py-4 rounded-xl font-bold text-xs tracking-widest uppercase italic">Write
+                                class="block w-full text-center bg-orange-600 text-white py-4 rounded-xl font-black text-xs tracking-widest uppercase italic">Write
                                 New Article</a>
                         @endif
-                    @else
-                        <a href="{{ route('auth.login') }}"
-                            class="block w-full text-center bg-[#1a1c2e] text-white py-4 rounded-xl font-bold text-xs tracking-widest uppercase italic">Login
-                            To Account</a>
-                    @endauth
-                </div>
+                    </div>
+                @else
+                    <a href="{{ route('auth.login') }}"
+                        class="block w-full text-center bg-[#1a1c2e] text-white py-5 rounded-2xl font-black text-xs tracking-widest uppercase italic">Login
+                        To Account</a>
+                @endauth
             </div>
         </div>
-    </nav>
+    </aside>
 
     <main>@yield('content')</main>
 
@@ -216,14 +237,35 @@
     </footer>
 
     <script>
-        const btn = document.getElementById('mobile-btn');
-        const menu = document.getElementById('mobile-menu');
-        const icon = document.getElementById('hamburger-icon');
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
+        const openBtn = document.getElementById('mobile-btn');
+        const closeBtn = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar(show) {
+            if (show) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.add('opacity-100');
+                    sidebar.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 500);
+                document.body.style.overflow = '';
+            }
+        }
+
+        openBtn.addEventListener('click', () => toggleSidebar(true));
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => toggleSidebar(false));
+        }
+        overlay.addEventListener('click', () => toggleSidebar(false));
     </script>
 </body>
 
