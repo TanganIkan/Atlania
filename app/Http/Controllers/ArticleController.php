@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -113,6 +114,18 @@ class ArticleController extends Controller
             'content' => request('content'),
             'category_id' => request('category_id'),
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('articles', 'public');
+            $article->update(['image' => $path]);
+
+            if ($article->image && Storage::disk('public')->exists($article->image)) {
+                Storage::disk('public')->delete($article->image);
+            }
+            $data['image'] = $path;
+        }
+
+        $article->update($data);
 
         return redirect(route('articles.my'))->with('success', 'Article updated successfully!');
     }
