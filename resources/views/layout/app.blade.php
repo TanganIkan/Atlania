@@ -38,8 +38,6 @@
                             </svg>
                         </button>
                     </div>
-                    <a href="#"
-                        class="text-slate-600 hover:text-orange-500 transition text-sm font-semibold">Feature</a>
                     <a href="{{ route('about') }}"
                         class="{{ request()->routeIs('about') ? 'text-orange-500' : 'text-slate-600' }} hover:text-orange-500 transition text-sm font-semibold">
                         About
@@ -101,11 +99,12 @@
                             </a>
                         </div>
                     @else
-                        {{-- Jika Belum Login --}}
-                        <a href="{{ route('auth.login') }}"
-                            class="text-[10px] font-black text-[#1a1c2e] hover:text-orange-500 transition uppercase tracking-widest">
-                            Login
-                        </a>
+                        <div class="flex-1 flex justify-end">
+                            <a href="{{ route('auth.login') }}"
+                                class="hover:text-orange-500 transition text-sm font-semibold uppercase tracking-widest text-slate-600">
+                                Login
+                            </a>
+                        </div>
                     @endauth
                 </div>
             </div>
