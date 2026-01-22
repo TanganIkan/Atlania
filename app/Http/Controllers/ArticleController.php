@@ -93,7 +93,7 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        if ($article->user_id !== auth()->id() && Auth::user()->role !== 'admin') {
+        if ($article->user_id != auth()->id() && Auth::user()->role != 'admin') {
             abort(403);
         }
 
@@ -103,7 +103,7 @@ class ArticleController extends Controller
 
     public function update(Request $request, Article $article)
     {
-        if ($article->user_id !== auth()->id() && Auth::user()->role !== 'admin') {
+        if ($article->user_id != auth()->id() && auth()->user()->role != 'admin') {
             abort(403);
         }
 
@@ -114,19 +114,18 @@ class ArticleController extends Controller
             'category_id' => request('category_id'),
         ]);
 
-        return redirect(route('articles.my'))->with('success', 'Article diperbarui');
+        return redirect(route('articles.my'))->with('success', 'Article updated successfully!');
     }
 
     public function destroy(Article $article)
     {
-        if ($article->user_id !== auth()->id() && Auth::user()->role !== 'admin') {
+        if ($article->user_id != auth()->id() && auth()->user()->role != 'admin') {
             abort(403);
         }
 
         $article->delete();
-        return redirect(route('articles.my'))->with('success', 'Article dihapus');
+        return redirect(route('articles.my'))->with('success', 'Article deleted');
     }
-
     public function show(Article $article)
     {
         $relatedArticles = Article::where('user_id', $article->user_id)

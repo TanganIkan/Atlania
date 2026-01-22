@@ -127,6 +127,9 @@
                                 <span class="flex items-center hover:text-blue-500 transition-colors">
                                     <i class="far fa-comment mr-1 text-xs"></i> {{ number_format($article->comments_count) }}
                                 </span>
+                                <span class="hidden sm:flex items-center hover:text-orange-500 transition-colors">
+                                    <i class="far fa-bookmark mr-1 text-xs"></i> {{ number_format($article->save_count) }}
+                                </span>
                             </div>
 
                             <a href="{{ route('articles.show', $article->slug) }}"
@@ -141,7 +144,6 @@
             </div>
         </div>
 
-        {{-- Last Articles Section --}}
         <div class="mb-16">
             <div class="flex justify-between items-end mb-8 md:mb-10">
                 <h2 class="text-3xl md:text-4xl font-extrabold text-[#1a1c2e]">Last Article</h2>
@@ -224,7 +226,6 @@
                 </a>
             </div>
 
-            {{-- Slider Container --}}
             <div class="relative px-4 sm:px-10 -mx-4 sm:-mx-10 overflow-hidden">
                 <div class="swiper weeklySwiper !overflow-visible py-10 px-2 sm:px-4">
                     <div class="swiper-wrapper">
