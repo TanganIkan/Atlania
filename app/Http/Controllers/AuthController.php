@@ -33,7 +33,7 @@ class AuthController extends Controller
 
             return redirect()->intended(route('dashboard'));
         }
-        return back()->with('error', 'Email atau password salah.');
+        return back()->with('error', 'Email or password wrong.');
     }
 
     public function register()
