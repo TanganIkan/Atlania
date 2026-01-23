@@ -1,12 +1,13 @@
 @extends('layout.app')
 
 @section('content')
-    <main class="max-w-7xl mx-auto px-4 py-16 font-['Plus_Jakarta_Sans']">
-        <div class="max-w-3xl mb-12">
+
+    <main class="max-w-7xl mx-auto px-4 py-16">
+        <div class="w-full mb-12">
             <span class="text-[#f15a24] font-bold uppercase tracking-widest text-xs">
                 — {{ $article->category->name }}
             </span>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-[#1a1c2e] mt-4 leading-[1.1]">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-[#1a1c2e] mt-4 leading-[1.1] w-full">
                 {{ $article->title }}
             </h1>
         </div>
