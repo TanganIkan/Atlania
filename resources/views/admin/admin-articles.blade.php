@@ -17,7 +17,6 @@
     {{-- Articles Table --}}
     <div class="bg-white rounded-[2rem] md:rounded-[2.5rem] p-4 md:p-8 shadow-sm border border-gray-50 overflow-hidden">
         <div class="overflow-x-auto no-scrollbar">
-            {{-- Min-width ditambahkan agar tabel tidak "penyet" saat layar sangat sempit --}}
             <table class="w-full text-left border-separate border-spacing-y-3 min-w-[700px] md:min-w-full">
                 <thead>
                     <tr class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">
@@ -30,7 +29,6 @@
                 <tbody>
                     @forelse ($articles as $article)
                         <tr class="group">
-                            {{-- Image & Title Info --}}
                             <td class="px-6 py-4 bg-gray-50/50 rounded-l-[1.5rem] border-y border-l border-transparent group-hover:border-gray-100 transition-all">
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl overflow-hidden bg-gray-200 flex-shrink-0 shadow-sm">

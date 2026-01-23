@@ -14,7 +14,7 @@
 
             <div
                 class="relative h-72 w-full bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex flex-col items-center justify-center hover:border-[#f15a24] transition-all">
-                {{-- Menampilkan gambar yang sudah ada sebelumnya --}}
+
                 <img id="image-preview" src="{{$article->image}}" 
                     class="absolute inset-0 w-full h-full object-cover {{ $article->image ? '' : 'hidden' }}">
                 

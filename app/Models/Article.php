@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'title',
         'slug',
@@ -24,95 +21,68 @@ class Article extends Model
         'is_featured',
     ];
 
+    // Relasi
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function views()
-    {
-        return $this->hasMany(ArticleView::class);
-    }
-
+    // Accessor Image
     public function getImageAttribute($value)
     {
         if ($value && Storage::disk('public')->exists($value)) {
             return asset('storage/' . $value);
         }
-
         return asset('images/default-thumbnail.jpg');
     }
 
-    // Statistik artikel dibuat (daily / weekly / monthly)
+    /**
+     * Scope untuk statistik grafik artikel dibuat
+     */
     public function scopeGetStats($query, $period)
     {
-        if ($period === 'weekly') {
-            return $query
-                ->selectRaw('
-                    CONCAT(
-                        DATE_FORMAT(
-                            DATE_SUB(created_at, INTERVAL WEEKDAY(created_at) DAY),
-                            "%d"
-                        ),
-                        "–",
-                        DATE_FORMAT(
-                            DATE_ADD(created_at, INTERVAL (6 - WEEKDAY(created_at)) DAY),
-                            "%d %b %Y"
-                        )
-                    ) as label,
-                    COUNT(*) as total
-                ')
-                ->groupBy('label')
-                ->orderByRaw('MIN(created_at)');
-        }
+        $query = match ($period) {
+            'weekly' => $query->select(
+                DB::raw("YEARWEEK(created_at) as label"),
+                DB::raw("COUNT(*) as total")
+            ),
+            'monthly' => $query->select(
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as label"),
+                DB::raw("COUNT(*) as total")
+            ),
+            default => $query->select(
+                DB::raw("DATE(created_at) as label"),
+                DB::raw("COUNT(*) as total")
+            ),
+        };
 
-        if ($period === 'monthly') {
-            return $query
-                ->selectRaw('
-                    DATE_FORMAT(created_at, "%b %Y") as label,
-                    COUNT(*) as total
-                ')
-                ->groupBy('label')
-                ->orderByRaw('MIN(created_at)');
-        }
-
-        // DAILY (default)
-        return $query
-            ->selectRaw('
-                DATE(created_at) as label,
-                COUNT(*) as total
-            ')
-            ->groupBy('label')
-            ->orderBy('label');
+        return $query->groupBy('label')->orderBy('label');
     }
-    
-    // Artikel populer berdasarkan periode
+
     public static function getPopularByPeriod($period)
     {
-        $query = self::select(
-            'articles.title',
-            DB::raw('COUNT(article_views.id) as total')
-        )
+        $query = self::select('articles.title', DB::raw('COUNT(article_views.id) as total'))
             ->join('article_views', 'articles.id', '=', 'article_views.article_id');
 
         match ($period) {
-            'weekly' => $query->whereBetween('article_views.view_date', [
-                now()->startOfWeek(),
-                now()->endOfWeek()
-            ]),
+            'weekly' => $query->whereBetween('article_views.view_date', [now()->startOfWeek(), now()->endOfWeek()]),
             'monthly' => $query->whereMonth('article_views.view_date', now()->month),
             default => $query->whereDate('article_views.view_date', today()),
         };
 
-        return $query
-            ->groupBy('articles.id', 'articles.title')
+        return $query->groupBy('articles.id', 'articles.title')
             ->orderByDesc('total')
             ->limit(10)
             ->get();
+    }
+
+    public function views()
+    {
+        // Ini menghubungkan Article dengan tabel article_views
+        return $this->hasMany(ArticleView::class);
     }
 }

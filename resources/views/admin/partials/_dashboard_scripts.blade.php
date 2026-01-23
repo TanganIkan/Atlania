@@ -21,8 +21,6 @@
                 if (!canvas) return;
 
                 const ctx = canvas.getContext('2d');
-
-                // 🔥 Limit teks label agar tidak kepanjangan di grafik
                 const labels = data.map(item => truncateText(item.label ?? item.title, 18));
                 const totals = data.map(item => item.total);
 

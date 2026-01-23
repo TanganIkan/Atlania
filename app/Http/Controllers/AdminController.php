@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Article;
 use App\Models\ArticleView;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +36,7 @@ class AdminController extends Controller
             $popularArticles = $popularWeekly
                 ->skip(1)
                 ->take(6)
-                ->map(fn ($item) => $articlesById->get($item->id))
+                ->map(fn($item) => $articlesById->get($item->id))
                 ->filter();
         }
 

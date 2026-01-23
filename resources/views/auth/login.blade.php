@@ -25,7 +25,6 @@
 
     <form method="POST" action="{{ route('auth.login.process') }}" class="space-y-6">
         @csrf
-
         {{-- Email Field --}}
         <div>
             <label class="block text-[10px] font-black text-[#1a1c2e] uppercase tracking-[0.2em] mb-2 ml-1">
