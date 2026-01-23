@@ -77,8 +77,8 @@
 
             <p class="text-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
                 Already a member?
-                <a href="{{ route('auth.login') }}"
-                    class="text-[#f15a24] hover:underline decoration-2 underline-offset-4">Sign In</a>
+                <a href="{{ route('login') }}" class="text-[#f15a24] hover:underline decoration-2 underline-offset-4">Sign
+                    In</a>
             </p>
         </div>
     </form>
