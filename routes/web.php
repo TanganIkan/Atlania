@@ -7,15 +7,18 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
+use GuzzleHttp\Middleware;
 
 // ===== AUTH =====
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'loginProcess'])->name('auth.login.process');
 
     Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/register', [AuthController::class, 'registerProcess'])->name('auth.register.process');
 });
+
+
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -52,8 +55,6 @@ Route::middleware('auth')->group(function () {
 // PDF DOWNLOAD
 Route::get('/articles/{id}/download-pdf', [ExportController::class, 'downloadPdf'])->name('articles.download.pdf');
 
-// EXCEL DOWNLOAD
-Route::get('/admin/export/chart/{type}', [ExportController::class, 'downloadExcel'])->name('admin.export.chart');
 
 // ADMIN
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
@@ -65,6 +66,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/chart/popular-articles', [AdminController::class, 'chartPopularArticles'])->name('admin.chart.popular');
 
     Route::get('/admin-articles', [ArticleController::class, 'adminArticles'])->name('admin.articles');
+
+    // EXCEL DOWNLOAD
+    Route::get('/admin/export/chart/{type}', [ExportController::class, 'downloadExcel'])->name('admin.export.chart');
 });
 
 // ABOUT PAGE

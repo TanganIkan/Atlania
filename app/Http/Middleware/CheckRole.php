@@ -15,8 +15,13 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!$request->user() || !in_array($request->user()->role, $roles)) {
-            abort(403, "HUSS HUSS, KAMU GA PUNYA IZIN.");
+        if (!$request->user()) {
+            return redirect()->route('login');
+        }
+
+        if (!in_array($request->user()->role, $roles)) {
+
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access that page.');
         }
 
         return $next($request);

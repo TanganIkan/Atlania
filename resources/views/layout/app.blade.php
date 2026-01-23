@@ -98,7 +98,7 @@
                             </div>
                         @else
                             <div class="border-l pl-6 border-gray-200">
-                                <a href="{{ route('auth.login') }}"
+                                <a href="{{ route('login') }}"
                                     class="hover:text-orange-500 transition text-sm font-semibold uppercase tracking-widest text-slate-600">Login</a>
                             </div>
                         @endauth
@@ -161,7 +161,7 @@
                         @endif
                     </div>
                 @else
-                    <a href="{{ route('auth.login') }}"
+                    <a href="{{ route('login') }}"
                         class="block w-full text-center bg-[#1a1c2e] text-white py-5 rounded-2xl font-black text-xs tracking-widest uppercase italic">Login
                         To Account</a>
                 @endauth
@@ -169,6 +169,29 @@
         </div>
     </aside>
 
+    @if (session('error'))
+        <div id="error-alert"
+            class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] bg-red-50 border border-red-100 p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce transition-all duration-500">
+            <i class="fas fa-exclamation-circle text-red-500"></i>
+            <p class="text-red-600 text-[10px] font-black uppercase tracking-widest italic">{{ session('error') }}</p>
+        </div>
+
+        {{-- Error Notification --}}
+        <script>
+            setTimeout(() => {
+                const alert = document.getElementById('error-alert');
+                if (alert) {
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translate(-50%, -20px)';
+
+                    setTimeout(() => alert.remove(), 500);
+                }
+            }, 4000);
+        </script>
+    @endif
+
+
+    {{-- MAIN CONTENT --}}
     <main>@yield('content')</main>
 
     {{-- FOOTER ATLANIA --}}

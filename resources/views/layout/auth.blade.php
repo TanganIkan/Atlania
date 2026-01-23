@@ -49,7 +49,7 @@
             <img src="{{ asset('assets/images/22.webp') }}"
                 class="absolute right-[20%] top-[60%] w-[350px] drop-shadow-md" />
         </div>
-        <div class="relative w-full max-w-md bg-white rounded-[2rem] md:rounded-[2.5rem] 
+        <div class="relative overflow-hidden w-full max-w-md bg-white rounded-[2rem] md:rounded-[2.5rem] 
             shadow-[0_15px_40px_rgba(26,28,46,0.08)] md:shadow-[0_20px_50px_rgba(26,28,46,0.05)] 
             border border-gray-100 p-8 md:p-12 z-10 transition-all duration-500 
             hover:shadow-[0_30px_60px_rgba(26,28,46,0.1)]">
