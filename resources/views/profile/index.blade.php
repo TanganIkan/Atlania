@@ -88,6 +88,18 @@
                                 </div>
                             @endif
 
+                            @if ($errors->updatePassword->any())
+                                <div
+                                    class="mb-8 p-5 bg-red-50 text-red-600 rounded-2xl text-[10px] md:text-[11px] font-black uppercase tracking-widest flex flex-col gap-2 italic border border-red-100">
+                                    @foreach ($errors->updatePassword->all() as $error)
+                                        <div class="flex items-center gap-3">
+                                            <i class="fas fa-circle-exclamation text-base"></i>
+                                            {{ $error }}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
                             <form method="POST" action="{{ route('profile.password.update') }}"
                                 class="space-y-6 md:space-y-8">
                                 @csrf
@@ -143,6 +155,7 @@
                         <form method="POST" action="{{ route('auth.logout') }}" class="w-full md:w-auto">
                             @csrf
                             <button type="submit"
+                                onclick="return confirm('Are you sure you want to terminate this session?')"
                                 class="w-full md:w-auto bg-white/10 hover:bg-red-500 text-white border border-white/5 px-10 py-5 rounded-2xl font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] transition-all duration-300 backdrop-blur-sm shadow-lg shadow-black/20">
                                 Terminate Session
                             </button>
